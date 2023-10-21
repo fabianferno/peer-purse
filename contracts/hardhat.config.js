@@ -3,8 +3,6 @@ require("hardhat-contract-sizer");
 require("@openzeppelin/hardhat-upgrades");
 require("./tasks");
 require("dotenv").config();
-require("@starboardventures/hardhat-verify");
-const { networks } = require("./networks");
 
 // Enable gas reporting (optional)
 const REPORT_GAS =
@@ -23,7 +21,7 @@ module.exports = {
   solidity: {
     compilers: [
       {
-        version: "0.8.17",
+        version: "0.8.10",
         settings: {
           optimizer: {
             enabled: true,
@@ -31,26 +29,6 @@ module.exports = {
             details: { yul: false },
           },
         },
-      },
-      {
-        version: "0.8.10",
-        settings: SOLC_SETTINGS,
-      },
-      {
-        version: "0.8.7",
-        settings: SOLC_SETTINGS,
-      },
-      {
-        version: "0.7.0",
-        settings: SOLC_SETTINGS,
-      },
-      {
-        version: "0.6.6",
-        settings: SOLC_SETTINGS,
-      },
-      {
-        version: "0.4.24",
-        settings: SOLC_SETTINGS,
       },
     ],
   },
@@ -66,25 +44,19 @@ module.exports = {
           ]
         : [],
     },
-    ...networks,
+    goerli: {
+      url: "https://rpc.ankr.com/eth_goerli",
+      chainId: 5,
+      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
+      nativeCurrencySymbol: "ETH",
+    },
   },
   etherscan: {
     // npx hardhat verify --network <NETWORK> <CONTRACT_ADDRESS> <CONSTRUCTOR_PARAMETERS>
     // to get exact network names: npx hardhat verify --list-networks
     apiKey: {
-      sepolia: networks.sepolia.verifyApiKey,
-      polygonzkEVMTestnet: networks.polygonzkEVMTestnet.verifyApiKey,
+      goerli: process.env.ETHERSCAN_API_KEY,
     },
-    customChains: [
-      {
-        network: "polygonzkEVMTestnet",
-        chainId: 1442,
-        urls: {
-          apiURL: "https://api-testnet-zkevm.polygonscan.com/api",
-          browserURL: "https://testnet-zkevm.polygonscan.com/",
-        },
-      },
-    ],
   },
   gasReporter: {
     enabled: REPORT_GAS,
@@ -102,10 +74,7 @@ module.exports = {
     cache: "./build/cache",
     artifacts: "./build/artifacts",
   },
-  starboardConfig: {
-    baseURL: "https://fvm-calibration-api.starboard.ventures",
-    network: "Calibration", // if there's no baseURL, url will depend on the network.  Mainnet || Calibration
-  },
+
   mocha: {
     timeout: 200000, // 200 seconds max for running tests
   },

@@ -1,0 +1,1 @@
+exports.deployPeerPurse = require("./deployPeerPurse");
