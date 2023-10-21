@@ -1,0 +1,51 @@
+import { ReactElement } from "react";
+import { useClient, useSetClient } from "../hooks/useClient";
+import { Wallet } from "ethers";
+import { Client } from "@xmtp/xmtp-js";
+import {
+  AttachmentCodec,
+  RemoteAttachmentCodec,
+} from "@xmtp/content-type-remote-attachment";
+
+export default function LoginView(): ReactElement {
+  const setClient = useSetClient();
+
+  async function generateWallet() {
+    const wallet = Wallet.createRandom();
+    const client = await Client.create(wallet, {
+      // env: "dev",
+      env: "production",
+    });
+
+    // Don't do this in real life.
+    localStorage.setItem("_insecurePrivateKey", wallet.privateKey);
+
+    setClient(client);
+  }
+
+  return (
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-12">
+      <div className="mx-auto max-w-3xl"></div>
+      <div className="bg-white shadow sm:rounded-lg">
+        <div className="px-4 py-5 sm:p-6">
+          <h3 className="text-base font-semibold leading-6 text-gray-900">
+            Login
+          </h3>
+          <div className="mt-2 max-w-xl text-sm text-gray-500">
+            <p>You can generate a wallet or connect your own.</p>
+          </div>
+          <div className="mt-5 flex space-x-4">
+            <button
+              type="button"
+              onClick={generateWallet}
+              className="rounded-lg bg-zinc-600 text-zinc-100"
+            >
+              Generate Wallet
+            </button>
+            <div className="connect-button"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
