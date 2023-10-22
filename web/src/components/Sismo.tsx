@@ -16,7 +16,10 @@ import { ConstructionIcon } from "lucide-react";
 const config: SismoConnectConfig = {
   appId: "0x440e420e700a9ea11ec789cc06ad9aaf",
   vault: {
-    impersonate: ["github:leosayous21"],
+    impersonate: [
+      "github:leosayous21",
+      "0x28C6c06298d514Db089934071355E5743bf21d60", // Binance
+    ],
   },
 };
 
@@ -53,8 +56,9 @@ export default function SismoApp() {
 
   return (
     <main
-      className={`w-full min-h-screen flex-col items-center justify-between mt-24 px-24`}
+      className={`w-full min-h-screen flex-col items-center justify-between mt-12`}
     >
+      <h1 className="text-3xl font-bold mt-3">Send proofs</h1>
       <div className="flex justify-between items-center pt-5">
         <div className="bg-zinc-800 p-3 py-5 mb-5 w-full rounded-3xl ">
           <p className="text-sm text-zinc-400">
