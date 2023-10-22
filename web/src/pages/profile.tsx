@@ -151,18 +151,22 @@ export default function Onboarding() {
     (async () => {
       let provider: any = web3Provider;
       let pool = new ethers.Contract(
-        "0xe7ea57b22d5f496bf9ca50a7830547b704ecb91f",
+        "0x26ca51Af4506DE7a6f0785D20CD776081a05fF6d",
         [
           "function getUserAccountData(address) view returns (uint256 totalCollateralETH, uint256 totalDebtETH, uint256 availableBorrowsETH, uint256 currentLiquidationThreshold, uint256 ltv, uint256 healthFactor)",
         ],
         provider
       );
       await pool.getUserAccountData(ownerAddress).then((data: any) => {
+        console.log(
+          "Data for 0x71B43a66324C7b80468F1eE676E7FCDaF63eB6Ac: ",
+          data
+        );
         setData(data);
         setaccountDataLoading(false);
       });
     })();
-  }, [ownerAddress, data, web3Provider]);
+  }, [ownerAddress, web3Provider]);
 
   return (
     <Layout>
@@ -234,7 +238,7 @@ export default function Onboarding() {
               <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4 flex flex-col justify-between">
                 <dt className="text-zinc-200">Loan to Value</dt>
                 <dd className="text-white text-3xl font-bold">
-                  <p>{JSON.stringify(parseFloat(data.ltv))}</p>
+                  <p>{JSON.stringify(parseFloat(data.ltv))} spDAI</p>
                 </dd>
               </div>
             </div>
