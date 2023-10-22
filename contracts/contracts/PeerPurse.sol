@@ -85,4 +85,10 @@ contract PeerPurse {
             s := mload(add(signature, 0x40))
         }
     }
+    
+    /// @dev Function to get all registered accounts.
+    /// @return The array of registered accounts.
+    function getAllAccounts() public view returns (address[] memory) {
+        return accounts;
+    }
 }
