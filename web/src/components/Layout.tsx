@@ -47,7 +47,7 @@ export default function Layout({ children }: Props) {
           >
             {() => (
               <>
-                <div className="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8">
+                <div className="mx-auto max-w-full px-2 sm:px-4 lg:px-8">
                   <div className="relative flex h-24 items-center justify-between">
                     <div className="flex items-center px-2 lg:px-0">
                       <Link

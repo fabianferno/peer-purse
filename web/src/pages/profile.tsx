@@ -9,7 +9,7 @@ import { useClient } from "@/hooks/useClient";
 import supply from "@/utils/calls/supply";
 import { shortAddress } from "@/utils/shortAddress";
 import { parseEther, formatEther } from "viem";
-import { Link } from "lucide-react";
+import { Link } from "next/link";
 
 function ApproveCard() {
   const [amount, setAmount] = useState(0);
@@ -31,7 +31,7 @@ function ApproveCard() {
 
   return (
     <section>
-      <div className="bg-zinc-800 shadow sm:rounded-lg mt-2">
+      <div className="bg-zinc-800 shadow sm:rounded-lg mt-2 ">
         <div className="px-4 py-5 sm:p-6 flex justify-between items-center">
           <div>
             <h3 className="text-2xl font-semibold leading-4 text-gray-100">
@@ -68,16 +68,15 @@ function ApproveCard() {
                 ? `${shortAddress(txHash)}`
                 : "Approve"}
             </button>
-
-            {txHash && (
-              <Link
-                className="text-sm"
-                href={`https://goerli.etherscan.io/tx/${txHash}`}
-              >
-                View on Etherscan
-              </Link>
-            )}
           </div>
+          {txHash && (
+            <Link
+              className="text-sm"
+              href={`https://goerli.etherscan.io/tx/${txHash}`}
+            >
+              View on Etherscan
+            </Link>
+          )}
         </div>
       </div>
     </section>
@@ -307,7 +306,7 @@ export default function Onboarding() {
   return (
     <Layout>
       <main
-        className={`min-h-screen flex-col items-center justify-between mt-24 mx-12 px-24`}
+        className={`min-h-screen flex-col items-center justify-between mt-24 mx-12 px-24 my-24`}
       >
         <div className="my-2 ">
           <h1 className="h1 font-bold text-5xl pt-12 text-zinc-200">
