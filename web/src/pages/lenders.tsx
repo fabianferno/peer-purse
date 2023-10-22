@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import getAccounts from "@/utils/calls/getAccounts";
 import getUserAccountData from "@/utils/calls/getUserAccountData";
+import { set } from "date-fns";
 
 function LenderCard({ address, index }: any) {
   const [loading, setLoading] = useState(true);
@@ -17,14 +18,14 @@ function LenderCard({ address, index }: any) {
   useEffect(() => {
     (async () => {
       let provider: any = web3Provider;
-      console.log(data);
-      await getUserAccountData(provider, address).then((_data: any) => {
-        // console.log(_data);
-        setData(_data);
-        // setLoading(false);
-      });
+      if (provider) {
+        await getUserAccountData(provider, address).then((_data: any) => {
+          setData(_data);
+          setLoading(false);
+        });
+      }
     })();
-  }, [address, data, web3Provider]);
+  }, [address, loading]);
 
   return (
     <li className="overflow-hidden rounded-xl shadow-indigo-500 hover:shadow-xl hover:shadow-[#454545aa] transition-shadow duration-200 ease-in-out">
@@ -109,21 +110,25 @@ export default function Lenders() {
       setLenders(accounts);
       setLoading(false);
     })();
-  }, [web3Provider]);
+  }, []);
 
   return (
     <Layout>
       <main
         className={`min-h-screen flex-col items-center justify-between my-24 pt-10 px-24 mx-24`}
       >
-        <ul
-          role="list"
-          className="grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3 xl:gap-x-8"
-        >
-          {lenders.map((lender: any, index: number) => (
-            <LenderCard key={index} address={lender} />
-          ))}
-        </ul>
+        {loading ? (
+          <div>Loading...</div>
+        ) : (
+          <ul
+            role="list"
+            className="grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3 xl:gap-x-8"
+          >
+            {lenders.map((lender: any, index: number) => (
+              <LenderCard key={index} address={lender} />
+            ))}
+          </ul>
+        )}
       </main>
     </Layout>
   );
