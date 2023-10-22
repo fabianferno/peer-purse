@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import { useAccountAbstraction } from "@/store/accountAbstractionContext";
 import Image from "next/image";
-import { shortAddress } from "@/utils/shortAddress";
 import Chat from "@/components/Chat";
 
 function LenderCard({ address, index }: any) {
@@ -53,40 +52,40 @@ function LenderCard({ address, index }: any) {
       {loading ? (
         <div>Loading...</div>
       ) : (
-        <dl className="-my-2 divide-y bg-zinc-900 divide-zinc-700 px-5 py-2  text-sm leading-6">
-          <div className="flex justify-between gap-x-4 py-3">
-            <dt className="text-gray-500">Total Collateral Base</dt>
-            <dd className="text-gray-300">
+        <div className="-my-2  flex bg-zinc-900  px-5 py-2  text-sm leading-6">
+          <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4">
+            <dt className="text-zinc-200">Total Collateral Base</dt>
+            <dd className="text-zinc-900 text-3xl font-bold">
               <p>{JSON.stringify(parseFloat(data.totalCollateralETH))}</p>
             </dd>
           </div>
-          <div className="flex justify-between gap-x-4 py-3">
-            <dt className="text-gray-500">Total Debt Base</dt>
-            <dd className="text-gray-300">
+          <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4">
+            <dt className="text-zinc-200">Total Debt</dt>
+            <dd className="text-zinc-900 text-3xl font-bold">
               <p>{JSON.stringify(parseFloat(data.totalDebtETH))}</p>
             </dd>
           </div>
-          <div className="flex justify-between gap-x-4 py-3">
-            <dt className="text-gray-500">Available Borrow Base</dt>
-            <dd className="text-gray-300">
+          <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4">
+            <dt className="text-zinc-200">Available Borrows</dt>
+            <dd className="text-zinc-900 text-3xl font-bold">
               <p>{JSON.stringify(parseFloat(data.availableBorrowsETH))}</p>
             </dd>
           </div>
-          <div className="flex justify-between gap-x-4 py-3">
-            <dt className="text-gray-500">Liquidation Threshold</dt>
-            <dd className="text-gray-300">
+          <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4">
+            <dt className="text-zinc-200">Current Liquidation Threshold</dt>
+            <dd className="text-zinc-900 text-3xl font-bold">
               <p>
                 {JSON.stringify(parseFloat(data.currentLiquidationThreshold))}
               </p>
             </dd>
           </div>
-          <div className="flex justify-between gap-x-4 py-3">
-            <dt className="text-gray-500">Loan to Value</dt>
-            <dd className="text-gray-300">
+          <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4">
+            <dt className="text-zinc-200">Loan to Value</dt>
+            <dd className="text-zinc-900 text-3xl font-bold">
               <p>{JSON.stringify(parseFloat(data.ltv))}</p>
             </dd>
           </div>
-        </dl>
+        </div>
       )}
     </div>
   );
@@ -107,6 +106,10 @@ export default function Lenders() {
         {lender ? (
           <>
             <LenderCard address={lender} index={0} />
+            <div className="mt-6">
+              <h3 className="text-2xl font-bold">Chat with the Lender</h3>{" "}
+              <p className="text-zinc-400">powered by XMTP</p>
+            </div>
             <Chat address={lender} />
           </>
         ) : (

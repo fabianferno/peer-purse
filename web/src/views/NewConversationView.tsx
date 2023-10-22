@@ -1,4 +1,4 @@
-import { FormEvent, ReactElement, createRef, useState } from "react";
+import { FormEvent, ReactElement, createRef, useEffect, useState } from "react";
 import Header from "../components/Header";
 import { startConversation } from "../model/conversations";
 import { useClient } from "../hooks/useClient";
@@ -37,12 +37,13 @@ export default function NewConversationView({
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
 
-    const address = validateAddress();
-    if (!address) return;
+    const address = openAddress || validateAddress();
+    if (!address && !openAddress) return;
 
     try {
-      const conversation = await startConversation(client, address);
+      const conversation = await startConversation(client, openAddress);
     } catch (e) {
+      console.error(e);
       setError(String(e));
     }
   }
@@ -60,7 +61,7 @@ export default function NewConversationView({
   }
 
   return (
-    <div className="p-4 bg-zinc-800">
+    <div className="p-4 bg-zinc-800 rounded-3xl">
       <Header>
         <div className="flex justify-between">
           <h1>Start a new conversation</h1>

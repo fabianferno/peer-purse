@@ -54,15 +54,19 @@ export default function Chat({ address }: any) {
 
   return (
     <main className="my-3">
-      <div className="mx-auto p-3 rounded-xl bg-zinc-900 border border-zinc-800  max-h-[500px]">
+      <div className="mx-auto p-3 rounded-xl bg-zinc-900 border border-zinc-800">
         {client ? (
           <div>
-            {" "}
-            <div className="grid grid-row-12 gap-x-5">
+            <NewConversationView openAddress={address} />
+            <div className="grid grid-row-12 gap-x-5 mt-5">
               <div className="col-span-8 reset-last-message flex flex-col space-y-2">
                 {conversations?.length == 0 && <p>No conversations yet.</p>}
-                {conversations
-                  ? conversations.map((conversation, i) => (
+                {conversations ? (
+                  <div>
+                    <h1 className="text-sm font-bold mb-2">
+                      Find other chats...
+                    </h1>
+                    {conversations.map((conversation, i) => (
                       <button
                         onClick={() => {
                           setConversationId(conversation.topic);
@@ -74,8 +78,11 @@ export default function Chat({ address }: any) {
                           latestMessage={latestMessages[i]}
                         />
                       </button>
-                    ))
-                  : "Could not load conversations"}
+                    ))}
+                  </div>
+                ) : (
+                  "Could not load conversations"
+                )}
               </div>
               <div className="col-span-8 border border-gray-800 p-2 rounded-3xl">
                 {!conversationLoading && (
@@ -83,7 +90,6 @@ export default function Chat({ address }: any) {
                 )}
               </div>
             </div>
-            <NewConversationView openAddress={address} />
           </div>
         ) : (
           <LoginView />
