@@ -2,7 +2,8 @@ export const PEER_PURSE_ADDRESS = "0x8A49Da0f4d2c92e9a6726617634B14eE80A584da";
 export const POOL_ADDRESS = "0xe7ea57b22d5f496bf9ca50a7830547b704ecb91f";
 export const DAI_TOKEN_ADDRESS = "0x11fE4B6AE13d2a6055C8D9cF65c55bac32B5d844";
 export const DEBT_TOKEN_ADDRESS = "0xD72630D78157E1a2feD7A329873Bfd496704403D";
-
+export const WESTETH_TOKEN_ADDRESS =
+  "0x6e4f1e8d4c5e5e6e2781fd814ee0744cc16eb352";
 export const DEBT_TOKEN_ABI = [
   {
     inputs: [{ internalType: "contract IPool", name: "pool", type: "address" }],
