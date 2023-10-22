@@ -7,15 +7,12 @@ import { useLatestMessages } from "../hooks/useLatestMessages";
 import ConversationCellView from "../views/ConversationCellView";
 import en from "javascript-time-ago/locale/en.json";
 import ConversationView from "@/views/ConversationView";
+import NewConversationView from "@/views/NewConversationView";
 import { findConversation } from "@/model/conversations";
 
 TimeAgo.addDefaultLocale(en);
 
-interface Props {
-  children?: ReactNode;
-}
-
-export default function Chat({ children }: Props) {
+export default function Chat({ address }: any) {
   const client = useClient();
   const [readReceiptsEnabled, setReadReceiptsEnabled] = useState(
     window.localStorage.getItem("readReceiptsEnabled") === "true"
@@ -36,6 +33,10 @@ export default function Chat({ children }: Props) {
 
   useEffect(() => {
     (async () => {
+      if (conversationId == null && conversations.length > 0) {
+        setConversationId(conversations[0].topic);
+      }
+
       if (conversationId) {
         setConversationLoading(true);
         const conversationTemp = await findConversation(conversationId);
@@ -43,7 +44,7 @@ export default function Chat({ children }: Props) {
         setConversationLoading(false);
       }
     })();
-  }, [conversationId]);
+  }, [conversationId, conversations]);
 
   useEffect(() => {
     if (conversation) {
@@ -55,30 +56,34 @@ export default function Chat({ children }: Props) {
     <main className="my-3">
       <div className="mx-auto p-3 rounded-xl bg-zinc-900 border border-zinc-800  max-h-[500px]">
         {client ? (
-          <div className="grid grid-row-12 gap-x-5">
-            <div className="col-span-8 reset-last-message flex flex-col space-y-2">
-              {conversations?.length == 0 && <p>No conversations yet.</p>}
-              {conversations
-                ? conversations.map((conversation, i) => (
-                    <button
-                      onClick={() => {
-                        setConversationId(conversation.topic);
-                      }}
-                      key={conversation.topic}
-                    >
-                      <ConversationCellView
-                        conversation={conversation}
-                        latestMessage={latestMessages[i]}
-                      />
-                    </button>
-                  ))
-                : "Could not load conversations"}
+          <div>
+            {" "}
+            <div className="grid grid-row-12 gap-x-5">
+              <div className="col-span-8 reset-last-message flex flex-col space-y-2">
+                {conversations?.length == 0 && <p>No conversations yet.</p>}
+                {conversations
+                  ? conversations.map((conversation, i) => (
+                      <button
+                        onClick={() => {
+                          setConversationId(conversation.topic);
+                        }}
+                        key={conversation.topic}
+                      >
+                        <ConversationCellView
+                          conversation={conversation}
+                          latestMessage={latestMessages[i]}
+                        />
+                      </button>
+                    ))
+                  : "Could not load conversations"}
+              </div>
+              <div className="col-span-8 border border-gray-800 p-2 rounded-3xl">
+                {!conversationLoading && (
+                  <ConversationView conversation={conversation} />
+                )}
+              </div>
             </div>
-            <div className="col-span-8 border border-gray-800 p-2 rounded-3xl">
-              {!conversationLoading && (
-                <ConversationView conversation={conversation} />
-              )}
-            </div>
+            <NewConversationView openAddress={address} />
           </div>
         ) : (
           <LoginView />

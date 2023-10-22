@@ -3,7 +3,9 @@ import Header from "../components/Header";
 import { startConversation } from "../model/conversations";
 import { useClient } from "../hooks/useClient";
 
-export default function NewConversationView(): ReactElement {
+export default function NewConversationView({
+  openAddress = undefined,
+}: any): ReactElement {
   const client = useClient()!;
 
   // We're using an uncontrolled component here because we don't need to update
@@ -58,18 +60,16 @@ export default function NewConversationView(): ReactElement {
   }
 
   return (
-    <div className="p-4 pt-14">
+    <div className="p-4 bg-zinc-800">
       <Header>
         <div className="flex justify-between">
-          <h1>Make a new conversation</h1>
+          <h1>Start a new conversation</h1>
         </div>
       </Header>
       <div>
         <form onSubmit={onSubmit} className="space-y-4">
           {error && (
-            <div className="p-4 border rounded w-full md:w-1/2 mt-2">
-              {error}
-            </div>
+            <div className="p-4 border rounded w-full mt-2">{error}</div>
           )}
 
           <label className="block">
@@ -80,16 +80,14 @@ export default function NewConversationView(): ReactElement {
             <input
               autoFocus
               ref={addressInputRef}
+              defaultValue={openAddress}
               type="text"
-              className="border p-2 w-full md:w-1/2 rounded shadow-sm dark:bg-black"
+              className="border rounded-xl p-2 w-full shadow-sm dark:bg-black"
               placeholder="Enter an address"
             ></input>
           </label>
           <label className="block space-x-4">
-            <button
-              className="bg-primary-100  text-xs p-2 rounded"
-              type="submit"
-            >
+            <button className="bg-indigo-600 text-xs p-2 rounded" type="submit">
               Start Conversation
             </button>
           </label>

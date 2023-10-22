@@ -107,7 +107,7 @@ export default function Lenders() {
         {lender ? (
           <>
             <LenderCard address={lender} index={0} />
-            <Chat />
+            <Chat address={lender} />
           </>
         ) : (
           <div>Loading...</div>
