@@ -5,33 +5,43 @@ import Image from "next/image";
 import registerAccount from "@/utils/calls/registerAccount";
 import getUserAccountData from "@/utils/calls/getUserAccountData";
 import getAccounts from "@/utils/calls/getAccounts";
+import approveDelegation from "@/utils/calls/approveDelegation";
 import { useClient } from "@/hooks/useClient";
+import supply from "@/utils/calls/supply";
 
-function SupplyAndRegisterCard() {
+function ApproveCard() {
   const [amount, setAmount] = useState(0);
   const [loading, setLoading] = useState(false);
   const { web3Provider } = useAccountAbstraction();
 
-  const handleSupplyAndRegister = async (e: any) => {
+  const handleApprove = async (e: any) => {
+    console.log("Amount:", amount);
+    setLoading(true);
+    let provider: any = web3Provider;
+    let signer = provider.getSigner();
+    let address = await signer.getAddress();
+    let data = await approveDelegation(signer, address, String(amount));
+    console.log(data);
+    setLoading(false);
     e.preventDefault();
   };
 
   return (
     <section>
-      <div className="bg-zinc-800 shadow sm:rounded-lg">
+      <div className="bg-zinc-800 shadow sm:rounded-lg mt-2">
         <div className="px-4 py-5 sm:p-6 flex justify-between items-center">
           <div>
             <h3 className="text-2xl font-semibold leading-4 text-gray-100">
-              Supply and Register to Peer Purse
+              Approve delegation to Peer Purse
             </h3>
             <div className="mt-3 text-md text-gray-500">
               <p>
-                Set the amount you would like to supply to the protocol. Earn
+                Set the amount you would like to approve to the protocol. Earn
                 yield on your assets.
               </p>
             </div>
           </div>
-          <form className="mt-5 sm:flex sm:items-center">
+          <div className="mt-5 sm:flex sm:items-center">
             <div className=" ">
               <label htmlFor="email" className="sr-only">
                 Amount
@@ -41,17 +51,76 @@ function SupplyAndRegisterCard() {
                 name="number"
                 id="number"
                 onChange={(e) => setAmount(parseFloat(e.target.value))}
-                className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-900 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-lg"
-                placeholder="100 DAI"
+                className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-100 shadow-sm ring-1 ring-inset ring-gray-900 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-lg"
+                placeholder="Amt. in DAI"
               />
             </div>
             <button
-              onClick={handleSupplyAndRegister}
+              onClick={handleApprove}
               className="mt-3 inline-flex w-full items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-md font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:ml-3 sm:mt-0 sm:w-auto "
             >
-              {loading ? "Loading..." : "Supply & Register"}
+              {loading ? "Loading..." : "Approve"}
             </button>
-          </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function SupplyCard() {
+  const [amount, setAmount] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const { web3Provider } = useAccountAbstraction();
+
+  const handleSupply = async (e: any) => {
+    console.log("Amount:", amount);
+    setLoading(true);
+    let provider: any = web3Provider;
+    let signer = provider.getSigner();
+    let address = await signer.getAddress();
+    let data = await supply(signer, address, String(amount));
+    console.log(data);
+    setLoading(false);
+    e.preventDefault();
+  };
+
+  return (
+    <section>
+      <div className="bg-zinc-800 shadow sm:rounded-lg mt-2">
+        <div className="px-4 py-5 sm:p-6 flex justify-between items-center">
+          <div>
+            <h3 className="text-2xl font-semibold leading-4 text-gray-100">
+              Supply to Peer Purse
+            </h3>
+            <div className="mt-3 text-md text-gray-500">
+              <p>
+                Set the amount you would like to supply to the protocol. Earn
+                yield on your assets.
+              </p>
+            </div>
+          </div>
+          <div className="mt-5 sm:flex sm:items-center">
+            <div className=" ">
+              <label htmlFor="email" className="sr-only">
+                Amount
+              </label>
+              <input
+                type="number"
+                name="number"
+                id="number"
+                onChange={(e) => setAmount(parseFloat(e.target.value))}
+                className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-100 shadow-sm ring-1 ring-inset ring-gray-900 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-lg"
+                placeholder="Amt. in DAI"
+              />
+            </div>
+            <button
+              onClick={handleSupply}
+              className="mt-3 inline-flex w-full items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-md font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:ml-3 sm:mt-0 sm:w-auto "
+            >
+              {loading ? "Loading..." : "Supply"}
+            </button>
+          </div>
         </div>
       </div>
     </section>
@@ -75,7 +144,7 @@ function RegisterCard() {
 
   return (
     <section>
-      <div className="bg-zinc-800 shadow sm:rounded-lg">
+      <div className="bg-zinc-800 shadow sm:rounded-lg mt-2">
         <div className="px-4 py-5 sm:p-6 flex justify-between items-center">
           <div>
             <h3 className="text-2xl font-semibold leading-4 text-gray-100">
@@ -121,7 +190,7 @@ function EnableXMTP() {
 
   return (
     <section>
-      <div className="bg-zinc-800 shadow sm:rounded-lg">
+      <div className="bg-zinc-800 shadow sm:rounded-lg ">
         <div className="px-4 py-5 sm:p-6 flex justify-between items-center">
           <div>
             <h3 className="text-2xl font-semibold leading-4 text-gray-100">
@@ -158,12 +227,13 @@ export default function Onboarding() {
       await getUserAccountData(provider, address).then(async (_data: any) => {
         console.log("Data:", _data);
         setData(_data);
-        await getAccounts(provider).then((accounts: any) => {
-          if (accounts.includes(address)) {
-            setAlreadyRegistered(true);
-          }
-          setaccountDataLoading(false);
-        });
+        setAlreadyRegistered(false);
+        // await getAccounts(provider).then((a: any) => {
+        //   console.log("Accounts:", a);
+        //   if (a.includes(address)) {
+        //   }
+        // });
+        setaccountDataLoading(false);
       });
     })();
   }, [ownerAddress, web3Provider]);
@@ -262,11 +332,14 @@ export default function Onboarding() {
         <div className="flex flex-col gap-y-4 my-5">
           {!alreadyRegistered && (
             <div>
-              {parseFloat(data.totalCollateralBase) === 0 ? (
-                <SupplyAndRegisterCard />
+              <ApproveCard />
+              <SupplyCard />
+              <RegisterCard />
+              {/* {parseFloat(data.totalCollateralBase) === 0 ? (
+                <SupplyCard />
               ) : (
                 <RegisterCard />
-              )}
+              )} */}
             </div>
           )}
 
