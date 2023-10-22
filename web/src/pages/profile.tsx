@@ -5,6 +5,7 @@ import { useAccountAbstraction } from "@/store/accountAbstractionContext";
 import Image from "next/image";
 import supplyAndRegisterAccount from "@/utils/calls/supplyAndRegisterAccount";
 import registerAccount from "@/utils/calls/registerAccount";
+import { useClient } from "@/hooks/useClient";
 
 function SupplyAndRegisterCard() {
   const [amount, setAmount] = useState(0);
@@ -106,6 +107,50 @@ function RegisterCard() {
               {loading ? "Loading..." : "Register"}
             </button>
           </form>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function EnableXMTP() {
+  const client = useClient();
+  const [isEnabled, setIsEnabled] = useState(false);
+  const { ownerAddress } = useAccountAbstraction();
+
+  useEffect(() => {
+    (async () => {
+      if (client) {
+        let address: any = ownerAddress;
+        let data = await client.canMessage(address);
+        console.log("XMTP Enabled:", data);
+        if (data) {
+          setIsEnabled(true);
+        } else {
+          setIsEnabled(false);
+        }
+      }
+    })();
+  }, [client]);
+  return (
+    <section>
+      <div className="bg-zinc-800 shadow sm:rounded-lg">
+        <div className="px-4 py-5 sm:p-6 flex justify-between items-center">
+          <div>
+            <h3 className="text-2xl font-semibold leading-4 text-gray-100">
+              {isEnabled ? "You are enabled to send messages" : "Enable XMTP"}
+            </h3>
+            <div className="mt-3 text-md text-gray-500">
+              <p>We use XMTP to enable chat with your borrowers.</p>
+            </div>
+          </div>
+          {!isEnabled && (
+            <form className="mt-5 sm:flex sm:items-center">
+              <button className="mt-3 inline-flex w-full items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-md font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:ml-3 sm:mt-0 sm:w-auto  ">
+                Enable
+              </button>
+            </form>
+          )}
         </div>
       </div>
     </section>
@@ -217,6 +262,8 @@ export default function Onboarding() {
           ) : (
             <RegisterCard />
           )}
+
+          <EnableXMTP />
         </div>
       </main>
     </Layout>
