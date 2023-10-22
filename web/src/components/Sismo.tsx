@@ -126,6 +126,7 @@ export default function SismoApp() {
                 });
             }}
             onResponseBytes={async (bytes: string) => {}}
+            // callBackUrl={`https://localhost:3000/lender?lender=${}`}
           />
         </div>
       </div>
