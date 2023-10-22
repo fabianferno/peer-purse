@@ -9,7 +9,7 @@ import { useClient } from "@/hooks/useClient";
 import supply from "@/utils/calls/supply";
 import { shortAddress } from "@/utils/shortAddress";
 import { parseEther, formatEther } from "viem";
-import { Link } from "next/link";
+import Link from "next/link";
 
 function ApproveCard() {
   const [amount, setAmount] = useState(0);
