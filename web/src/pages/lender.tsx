@@ -1,8 +1,9 @@
 import { useRouter } from "next/router";
 import Layout from "../components/Layout";
 import { useState, useEffect } from "react";
-import { ethers } from "ethers";
 import { useAccountAbstraction } from "@/store/accountAbstractionContext";
+import getUserAccountData from "@/utils/calls/getUserAccountData";
+
 import Image from "next/image";
 import Chat from "@/components/Chat";
 import SismoApp from "@/components/Sismo";
@@ -16,15 +17,8 @@ function LenderCard({ address, index }: any) {
   useEffect(() => {
     (async () => {
       let provider: any = web3Provider;
-      let pool = new ethers.Contract(
-        "0xe7ea57b22d5f496bf9ca50a7830547b704ecb91f",
-        [
-          "function getUserAccountData(address) view returns (uint256 totalCollateralETH, uint256 totalDebtETH, uint256 availableBorrowsETH, uint256 currentLiquidationThreshold, uint256 ltv, uint256 healthFactor)",
-        ],
-        provider
-      );
-      await pool.getUserAccountData(address).then((data: any) => {
-        setData(data);
+      await getUserAccountData(provider, address).then((_data: any) => {
+        setData(_data);
         setLoading(false);
       });
     })();
@@ -58,7 +52,9 @@ function LenderCard({ address, index }: any) {
             <dt className="text-zinc-200">Total Collateral Base</dt>
             <dd className="text-white text-2xl font-bold">
               <p>
-                {JSON.stringify(parseFloat(data.totalCollateralETH) * (10 ^ 8))}{" "}
+                {JSON.stringify(
+                  parseFloat(data.totalCollateralBase) * (10 ^ 8)
+                )}{" "}
                 DAI
               </p>
             </dd>
@@ -67,7 +63,7 @@ function LenderCard({ address, index }: any) {
             <dt className="text-zinc-200">Total Debt</dt>
             <dd className="text-white text-2xl font-bold">
               <p>
-                {JSON.stringify(parseFloat(data.totalDebtETH) * (10 ^ 8))} DAI
+                {JSON.stringify(parseFloat(data.totalDebtBase) * (10 ^ 8))} DAI
               </p>
             </dd>
           </div>
@@ -76,7 +72,7 @@ function LenderCard({ address, index }: any) {
             <dd className="text-white text-2xl font-bold">
               <p>
                 {JSON.stringify(
-                  parseFloat(data.availableBorrowsETH) * (10 ^ 8)
+                  parseFloat(data.availableBorrowsBase) * (10 ^ 8)
                 )}{" "}
                 DAI
               </p>

@@ -1,6 +1,5 @@
 import Layout from "../components/Layout";
 import { useState, useEffect } from "react";
-import { ethers } from "ethers";
 import { useAccountAbstraction } from "@/store/accountAbstractionContext";
 import Image from "next/image";
 import registerAccount from "@/utils/calls/registerAccount";
@@ -118,6 +117,7 @@ function EnableXMTP() {
       }
     })();
   }, [client]);
+
   return (
     <section>
       <div className="bg-zinc-800 shadow sm:rounded-lg">
@@ -152,8 +152,10 @@ export default function Onboarding() {
     (async () => {
       let provider: any = web3Provider;
       let address: any = ownerAddress;
-      await getUserAccountData(provider, address).then((data: any) => {
-        setData(data);
+      console.log(address);
+      await getUserAccountData(provider, address).then((_data: any) => {
+        console.log("Data:", _data);
+        setData(_data);
         setaccountDataLoading(false);
       });
     })();
@@ -203,7 +205,7 @@ export default function Onboarding() {
                 <dd className="text-white text-2xl font-bold">
                   <p>
                     {JSON.stringify(
-                      parseFloat(data.totalCollateralETH) * (10 ^ 8)
+                      parseFloat(data.totalCollateralBase) * (10 ^ 8)
                     )}{" "}
                     DAI
                   </p>
@@ -213,7 +215,7 @@ export default function Onboarding() {
                 <dt className="text-zinc-200">Total Debt</dt>
                 <dd className="text-white text-2xl font-bold">
                   <p>
-                    {JSON.stringify(parseFloat(data.totalDebtETH) * (10 ^ 8))}{" "}
+                    {JSON.stringify(parseFloat(data.totalDebtBase) * (10 ^ 8))}{" "}
                     DAI
                   </p>
                 </dd>
@@ -223,7 +225,7 @@ export default function Onboarding() {
                 <dd className="text-white text-2xl font-bold">
                   <p>
                     {JSON.stringify(
-                      parseFloat(data.availableBorrowsETH) * (10 ^ 8)
+                      parseFloat(data.availableBorrowsBase) * (10 ^ 8)
                     )}{" "}
                     DAI
                   </p>

@@ -13,9 +13,5 @@ export default async function getUserAccountData(
       console.log(err);
     });
 
-  let formattedUserAccountData = userAccountData.map((data: any) => {
-    return data.toString();
-  });
-  //   console.log("User Account Data: ", formattedUserAccountData);
-  return formattedUserAccountData;
+  return userAccountData;
 }
