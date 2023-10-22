@@ -45,7 +45,7 @@ function LenderCard({ address, index }: any) {
             href={`lender/${address}`}
             className="border-t border-zinc-100 text-xs text-white font-bold px-3 p-2 rounded-md hover:bg-zinc-600"
           >
-            Borrow
+            View Lender
           </Link>
         </div>
       </div>
