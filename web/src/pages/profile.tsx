@@ -4,6 +4,7 @@ import { useAccountAbstraction } from "@/store/accountAbstractionContext";
 import Image from "next/image";
 import registerAccount from "@/utils/calls/registerAccount";
 import getUserAccountData from "@/utils/calls/getUserAccountData";
+import getAccounts from "@/utils/calls/getAccounts";
 import { useClient } from "@/hooks/useClient";
 
 function SupplyAndRegisterCard() {
@@ -146,6 +147,7 @@ function EnableXMTP() {
 export default function Onboarding() {
   const [accountDataLoading, setaccountDataLoading] = useState(true);
   const [data, setData] = useState<any>({});
+  const [alreadyRegistered, setAlreadyRegistered] = useState(false);
   const { web3Provider, ownerAddress } = useAccountAbstraction();
 
   useEffect(() => {
@@ -153,10 +155,15 @@ export default function Onboarding() {
       let provider: any = web3Provider;
       let address: any = ownerAddress;
       console.log(address);
-      await getUserAccountData(provider, address).then((_data: any) => {
+      await getUserAccountData(provider, address).then(async (_data: any) => {
         console.log("Data:", _data);
         setData(_data);
-        setaccountDataLoading(false);
+        await getAccounts(provider).then((accounts: any) => {
+          if (accounts.includes(address)) {
+            setAlreadyRegistered(true);
+          }
+          setaccountDataLoading(false);
+        });
       });
     })();
   }, [ownerAddress, web3Provider]);
@@ -253,10 +260,14 @@ export default function Onboarding() {
         </div>
 
         <div className="flex flex-col gap-y-4 my-5">
-          {parseFloat(data.totalCollateralETH) === 0 ? (
-            <SupplyAndRegisterCard />
-          ) : (
-            <RegisterCard />
+          {!alreadyRegistered && (
+            <div>
+              {parseFloat(data.totalCollateralBase) === 0 ? (
+                <SupplyAndRegisterCard />
+              ) : (
+                <RegisterCard />
+              )}
+            </div>
           )}
 
           <EnableXMTP />
