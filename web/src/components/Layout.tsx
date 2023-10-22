@@ -18,7 +18,7 @@ import Link from "next/link";
 
 const navigation = [
   { name: "Lenders", href: "/lenders" },
-  { name: "Onboarding", href: "/onboard" },
+  { name: "Profile", href: "/profile" },
 ];
 interface Props {
   children?: ReactNode;
