@@ -1,9 +1,10 @@
 // components/Dropdown.js
 import { useState } from "react";
 
-const TestDropdown = ({ options, onSelectGroupId }) => {
+const TestDropdown = ({ options, onSelectGroup }: any) => {
+  console.log("Options: ", options);
   const [searchTerm, setSearchTerm] = useState("");
-  const filteredOptions = options.filter((option) =>
+  const filteredOptions = options.filter((option: any) =>
     option.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -16,14 +17,15 @@ const TestDropdown = ({ options, onSelectGroupId }) => {
         onChange={(e) => setSearchTerm(e.target.value)}
       />
       {options.length > 0 && (
-        <ul className="absolute z-10 mt-2 w-full border rounded bg-white">
-          {filteredOptions.map((option) => (
+        <ul className="overflow-y-scroll h-[400px] absolute z-10 mt-2 w-full border rounded bg-zinc-800 ">
+          {filteredOptions.map((option: any) => (
             <li
               key={option.id}
-              className="p-2 hover:bg-gray-200 cursor-pointer text-black"
-              onClick={() => onSelectGroupId(option.id)}
+              className="p-2 flex justify-between hover:bg-zinc-700 hover:text-white hover:shadow hover:shadow-indigo-600 cursor-pointer text-zinc-300"
+              onClick={() => onSelectGroup(option)}
             >
-              {option.name}
+              <span>{option.name}</span>
+              <span>{option.description}</span>
             </li>
           ))}
         </ul>
