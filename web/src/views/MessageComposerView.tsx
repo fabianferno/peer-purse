@@ -137,7 +137,7 @@ export default function MessageComposerView({
             </div>
             <button
               type="submit"
-              className="ml-px flex items-center space-x-1.5 rounded-3xl px-3 py-2 text-sm font-semibold bg-gradient-to-br from-emerald-500 text-gray-200 hover:bg-zinc-500"
+              className="ml-px flex items-center space-x-1.5 rounded-3xl px-3 py-2 text-sm font-semibold bg-gradient-to-br from-indigo-500 text-gray-200 hover:bg-zinc-500"
             >
               <span className="ml-1">Send</span>
               <PaperAirplaneIcon

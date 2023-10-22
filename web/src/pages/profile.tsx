@@ -5,6 +5,7 @@ import { useAccountAbstraction } from "@/store/accountAbstractionContext";
 import Image from "next/image";
 import supplyAndRegisterAccount from "@/utils/calls/supplyAndRegisterAccount";
 import registerAccount from "@/utils/calls/registerAccount";
+import { useClient } from "@/hooks/useClient";
 
 function SupplyAndRegisterCard() {
   const [amount, setAmount] = useState(0);
@@ -112,6 +113,50 @@ function RegisterCard() {
   );
 }
 
+function EnableXMTP() {
+  const client = useClient();
+  const [isEnabled, setIsEnabled] = useState(false);
+  const { ownerAddress } = useAccountAbstraction();
+
+  useEffect(() => {
+    (async () => {
+      if (client) {
+        let address: any = ownerAddress;
+        let data = await client.canMessage(address);
+        console.log("XMTP Enabled:", data);
+        if (data) {
+          setIsEnabled(true);
+        } else {
+          setIsEnabled(false);
+        }
+      }
+    })();
+  }, [client]);
+  return (
+    <section>
+      <div className="bg-zinc-800 shadow sm:rounded-lg">
+        <div className="px-4 py-5 sm:p-6 flex justify-between items-center">
+          <div>
+            <h3 className="text-2xl font-semibold leading-4 text-gray-100">
+              {isEnabled ? "You are enabled to send messages" : "Enable XMTP"}
+            </h3>
+            <div className="mt-3 text-md text-gray-500">
+              <p>We use XMTP to enable chat with your borrowers.</p>
+            </div>
+          </div>
+          {!isEnabled && (
+            <form className="mt-5 sm:flex sm:items-center">
+              <button className="mt-3 inline-flex w-full items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-md font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:ml-3 sm:mt-0 sm:w-auto  ">
+                Enable
+              </button>
+            </form>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function Onboarding() {
   const [accountDataLoading, setaccountDataLoading] = useState(true);
   const [data, setData] = useState<any>({});
@@ -170,30 +215,30 @@ export default function Onboarding() {
             </div>
           </div>
           {accountDataLoading ? (
-            <div>accountDataLoading...</div>
+            <div>Loading...</div>
           ) : (
-            <dl className="-my-2 divide-y bg-zinc-900 divide-zinc-700 px-5 py-2  text-sm leading-6">
-              <div className="flex justify-between gap-x-4 py-3">
-                <dt className="text-gray-500">Total Collateral Base</dt>
-                <dd className="text-gray-300">
+            <div className="-my-2  flex bg-zinc-900 px-2 py-2  text-sm leading-6">
+              <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4 flex flex-col justify-between">
+                <dt className="text-zinc-200">Total Collateral Base</dt>
+                <dd className="text-white text-3xl font-bold">
                   <p>{JSON.stringify(parseFloat(data.totalCollateralETH))}</p>
                 </dd>
               </div>
-              <div className="flex justify-between gap-x-4 py-3">
-                <dt className="text-gray-500">Total Debt Base</dt>
-                <dd className="text-gray-300">
+              <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4 flex flex-col justify-between">
+                <dt className="text-zinc-200">Total Debt</dt>
+                <dd className="text-white text-3xl font-bold">
                   <p>{JSON.stringify(parseFloat(data.totalDebtETH))}</p>
                 </dd>
               </div>
-              <div className="flex justify-between gap-x-4 py-3">
-                <dt className="text-gray-500">Available Borrow Base</dt>
-                <dd className="text-gray-300">
+              <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4 flex flex-col justify-between">
+                <dt className="text-zinc-200">Available Borrows</dt>
+                <dd className="text-white text-3xl font-bold">
                   <p>{JSON.stringify(parseFloat(data.availableBorrowsETH))}</p>
                 </dd>
               </div>
-              <div className="flex justify-between gap-x-4 py-3">
-                <dt className="text-gray-500">Liquidation Threshold</dt>
-                <dd className="text-gray-300">
+              <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4 flex flex-col justify-between">
+                <dt className="text-zinc-200">Current Liquidation Threshold</dt>
+                <dd className="text-white text-3xl font-bold">
                   <p>
                     {JSON.stringify(
                       parseFloat(data.currentLiquidationThreshold)
@@ -201,13 +246,13 @@ export default function Onboarding() {
                   </p>
                 </dd>
               </div>
-              <div className="flex justify-between gap-x-4 py-3">
-                <dt className="text-gray-500">Loan to Value</dt>
-                <dd className="text-gray-300">
+              <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4 flex flex-col justify-between">
+                <dt className="text-zinc-200">Loan to Value</dt>
+                <dd className="text-white text-3xl font-bold">
                   <p>{JSON.stringify(parseFloat(data.ltv))}</p>
                 </dd>
               </div>
-            </dl>
+            </div>
           )}
         </div>
 
@@ -217,6 +262,8 @@ export default function Onboarding() {
           ) : (
             <RegisterCard />
           )}
+
+          <EnableXMTP />
         </div>
       </main>
     </Layout>
