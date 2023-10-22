@@ -127,8 +127,15 @@ export default function Layout({ children }: Props) {
             )}
           </Disclosure>
         </div>
-        <main>{children}</main>
-
+        <main>
+          {isAuthenticated ? (
+            children
+          ) : (
+            <div className="bg-black h-full text-6xl font-bold text-white m-24 p-24 text-center">
+              Loading
+            </div>
+          )}
+        </main>
         <Footer />
       </div>
     </>
