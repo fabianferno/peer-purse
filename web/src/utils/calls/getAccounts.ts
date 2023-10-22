@@ -8,9 +8,9 @@ export default async function getAccounts(provider: any) {
     provider
   );
 
-  let accounts = await contract.getAllAccounts();
-
-  console.log(accounts);
-
+  let accounts = await contract.getAllAccounts().catch((err: any) => {
+    console.log(err);
+  });
+  console.log("Accounts:", accounts);
   return accounts;
 }

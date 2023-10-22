@@ -14,8 +14,7 @@ export async function getXMTPConversation(
   client: XMTP.Client,
   conversation: Conversation
 ): Promise<XMTP.Conversation> {
-  const conversations = await client.conversations.list();
-  console.log("Conversations:", conversations);
+  const conversations = await client.conversations.list(); 
   const xmtpConversation = conversations.find(
     (xmtpConversation) =>
       stripTopicName(xmtpConversation.topic) == conversation.topic
