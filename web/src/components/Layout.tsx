@@ -67,21 +67,22 @@ export default function Layout({ children }: Props) {
                       </Link>
                       <div className="hidden lg:ml-10 lg:block">
                         <div className="flex space-x-4">
-                          {navigation.map((item) => (
-                            <Link
-                              key={item.name}
-                              href={item.href}
-                              className={cn(
-                                buttonVariants({ variant: "ghost" }),
-                                item.href === router.pathname
-                                  ? "bg-muted hover:bg-muted"
-                                  : "hover:bg-transparent hover:underline",
-                                "justify-start"
-                              )}
-                            >
-                              {item.name}
-                            </Link>
-                          ))}
+                          {isAuthenticated &&
+                            navigation.map((item) => (
+                              <Link
+                                key={item.name}
+                                href={item.href}
+                                className={cn(
+                                  buttonVariants({ variant: "ghost" }),
+                                  item.href === router.pathname
+                                    ? "bg-muted hover:bg-muted"
+                                    : "hover:bg-transparent hover:underline",
+                                  "justify-start"
+                                )}
+                              >
+                                {item.name}
+                              </Link>
+                            ))}
                         </div>
                       </div>
                     </div>
