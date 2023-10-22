@@ -41,7 +41,6 @@ export default function Chat({ address }: any) {
         setConversationLoading(true);
         const conversationTemp = await findConversation(conversationId);
         setConversation(conversationTemp);
-        localStorage.setItem("conversation", JSON.stringify(conversation));
         setConversationLoading(false);
       }
     })();

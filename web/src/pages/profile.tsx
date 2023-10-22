@@ -214,7 +214,27 @@ function EnableXMTP() {
         <div className="px-4 py-5 sm:p-6 flex justify-between items-center">
           <div>
             <h3 className="text-2xl font-semibold leading-4 text-gray-100">
-              {isEnabled ? "You are enabled to send messages" : "Enable XMTP"}
+              {isEnabled ? (
+                <div className="flex items-center justify-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  <div className="ml-2">You are enabled to send messages</div>
+                </div>
+              ) : (
+                "Enable XMTP"
+              )}
             </h3>
             <div className="mt-3 text-md text-gray-500">
               <p>We use XMTP to enable chat with your borrowers.</p>
