@@ -20,6 +20,7 @@ import { useClient } from "@/hooks/useClient";
 const navigation = [
   { name: "Lenders", href: "/lenders" },
   { name: "Profile", href: "/profile" },
+  { name: "OnRamp", href: "/onramp" },
 ];
 interface Props {
   children?: ReactNode;
