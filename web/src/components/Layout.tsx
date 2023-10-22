@@ -15,6 +15,7 @@ import { buttonVariants } from "./ui/button";
 import { ModeToggle } from "./DarkModeToggle";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { useClient } from "@/hooks/useClient";
 
 const navigation = [
   { name: "Lenders", href: "/lenders" },
@@ -27,6 +28,7 @@ interface Props {
 export default function Layout({ children }: Props) {
   const { loginWeb3Auth, isAuthenticated, safeSelected, chainId } =
     useAccountAbstraction();
+  const xmtpClient: any = useClient();
 
   const router = useRouter();
 
@@ -128,7 +130,7 @@ export default function Layout({ children }: Props) {
           </Disclosure>
         </div>
         <main>
-          {isAuthenticated ? (
+          {isAuthenticated && xmtpClient?.address ? (
             children
           ) : (
             <div className="bg-black h-full text-6xl font-bold text-white m-24 p-24 text-center">
