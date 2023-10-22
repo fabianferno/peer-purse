@@ -5,6 +5,7 @@ import { ethers } from "ethers";
 import { useAccountAbstraction } from "@/store/accountAbstractionContext";
 import Image from "next/image";
 import Chat from "@/components/Chat";
+import SismoApp from "@/components/Sismo";
 
 function LenderCard({ address, index }: any) {
   const [loading, setLoading] = useState(true);
@@ -45,7 +46,7 @@ function LenderCard({ address, index }: any) {
         <div>
           Health Factor:{" "}
           <span className="bg-zinc-700 p-2 rounded-xl">
-            {parseFloat(data.healthFactor)}
+            {parseFloat(data.healthFactor) * (10 ^ 18)} HF
           </span>
         </div>
       </div>
@@ -55,34 +56,47 @@ function LenderCard({ address, index }: any) {
         <div className="-my-2  flex bg-zinc-900 px-2 py-2  text-sm leading-6">
           <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4 flex flex-col justify-between">
             <dt className="text-zinc-200">Total Collateral Base</dt>
-            <dd className="text-white text-3xl font-bold">
-              <p>{JSON.stringify(parseFloat(data.totalCollateralETH))}</p>
+            <dd className="text-white text-2xl font-bold">
+              <p>
+                {JSON.stringify(parseFloat(data.totalCollateralETH) * (10 ^ 8))}{" "}
+                DAI
+              </p>
             </dd>
           </div>
           <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4 flex flex-col justify-between">
             <dt className="text-zinc-200">Total Debt</dt>
-            <dd className="text-white text-3xl font-bold">
-              <p>{JSON.stringify(parseFloat(data.totalDebtETH))}</p>
+            <dd className="text-white text-2xl font-bold">
+              <p>
+                {JSON.stringify(parseFloat(data.totalDebtETH) * (10 ^ 8))} DAI
+              </p>
             </dd>
           </div>
           <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4 flex flex-col justify-between">
             <dt className="text-zinc-200">Available Borrows</dt>
-            <dd className="text-white text-3xl font-bold">
-              <p>{JSON.stringify(parseFloat(data.availableBorrowsETH))}</p>
+            <dd className="text-white text-2xl font-bold">
+              <p>
+                {JSON.stringify(
+                  parseFloat(data.availableBorrowsETH) * (10 ^ 8)
+                )}{" "}
+                DAI
+              </p>
             </dd>
           </div>
           <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4 flex flex-col justify-between">
             <dt className="text-zinc-200">Current Liquidation Threshold</dt>
-            <dd className="text-white text-3xl font-bold">
+            <dd className="text-white text-2xl font-bold">
               <p>
-                {JSON.stringify(parseFloat(data.currentLiquidationThreshold))}
+                {JSON.stringify(
+                  parseFloat(data.currentLiquidationThreshold) * (10 ^ 8)
+                )}
+                %
               </p>
             </dd>
           </div>
           <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4 flex flex-col justify-between">
             <dt className="text-zinc-200">Loan to Value</dt>
-            <dd className="text-white text-3xl font-bold">
-              <p>{JSON.stringify(parseFloat(data.ltv))}</p>
+            <dd className="text-white text-2xl font-bold">
+              <p>{JSON.stringify(parseFloat(data.ltv) * (10 ^ 4))}%</p>
             </dd>
           </div>
         </div>
@@ -111,6 +125,7 @@ export default function Lenders() {
               <p className="text-zinc-400">powered by XMTP</p>
             </div>
             <Chat address={lender} />
+            <SismoApp />
           </>
         ) : (
           <div>Loading...</div>

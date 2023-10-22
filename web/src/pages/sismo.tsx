@@ -46,6 +46,7 @@ export default function SismoApp() {
     (async function () {
       const result = await client.query({ query });
       setData(result.data);
+      setGroup(result.data.groups[0]);
       console.log("Data groups: ", result.data.groups);
     })();
   }, []);

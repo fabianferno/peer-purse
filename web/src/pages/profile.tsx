@@ -157,14 +157,12 @@ export default function Onboarding() {
         ],
         provider
       );
-      await pool.getUserAccountData(ownerAddress).then((data: any) => {
-        console.log(
-          "Data for 0x71B43a66324C7b80468F1eE676E7FCDaF63eB6Ac: ",
-          data
-        );
-        setData(data);
-        setaccountDataLoading(false);
-      });
+      await pool
+        .getUserAccountData("0x71B43a66324C7b80468F1eE676E7FCDaF63eB6Ac")
+        .then((data: any) => {
+          setData(data);
+          setaccountDataLoading(false);
+        });
     })();
   }, [ownerAddress, web3Provider]);
 
@@ -199,7 +197,7 @@ export default function Onboarding() {
             <div>
               Health Factor:{" "}
               <span className="bg-zinc-700 p-2 rounded-xl">
-                {parseFloat(data.healthFactor)}
+                {parseFloat(data.healthFactor) * (10 ^ 8)} HF
               </span>
             </div>
           </div>
@@ -209,36 +207,50 @@ export default function Onboarding() {
             <div className="-my-2  flex bg-zinc-900 px-2 py-2  text-sm leading-6">
               <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4 flex flex-col justify-between">
                 <dt className="text-zinc-200">Total Collateral Base</dt>
-                <dd className="text-white text-3xl font-bold">
-                  <p>{JSON.stringify(parseFloat(data.totalCollateralETH))}</p>
+                <dd className="text-white text-2xl font-bold">
+                  <p>
+                    {JSON.stringify(
+                      parseFloat(data.totalCollateralETH) * (10 ^ 8)
+                    )}{" "}
+                    DAI
+                  </p>
                 </dd>
               </div>
               <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4 flex flex-col justify-between">
                 <dt className="text-zinc-200">Total Debt</dt>
-                <dd className="text-white text-3xl font-bold">
-                  <p>{JSON.stringify(parseFloat(data.totalDebtETH))}</p>
+                <dd className="text-white text-2xl font-bold">
+                  <p>
+                    {JSON.stringify(parseFloat(data.totalDebtETH) * (10 ^ 8))}{" "}
+                    DAI
+                  </p>
                 </dd>
               </div>
               <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4 flex flex-col justify-between">
                 <dt className="text-zinc-200">Available Borrows</dt>
-                <dd className="text-white text-3xl font-bold">
-                  <p>{JSON.stringify(parseFloat(data.availableBorrowsETH))}</p>
+                <dd className="text-white text-2xl font-bold">
+                  <p>
+                    {JSON.stringify(
+                      parseFloat(data.availableBorrowsETH) * (10 ^ 8)
+                    )}{" "}
+                    DAI
+                  </p>
                 </dd>
               </div>
               <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4 flex flex-col justify-between">
                 <dt className="text-zinc-200">Current Liquidation Threshold</dt>
-                <dd className="text-white text-3xl font-bold">
+                <dd className="text-white text-2xl font-bold">
                   <p>
                     {JSON.stringify(
-                      parseFloat(data.currentLiquidationThreshold)
+                      parseFloat(data.currentLiquidationThreshold) * (10 ^ 8)
                     )}
+                    %
                   </p>
                 </dd>
               </div>
               <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4 flex flex-col justify-between">
                 <dt className="text-zinc-200">Loan to Value</dt>
-                <dd className="text-white text-3xl font-bold">
-                  <p>{JSON.stringify(parseFloat(data.ltv))} spDAI</p>
+                <dd className="text-white text-2xl font-bold">
+                  <p>{JSON.stringify(parseFloat(data.ltv) * (10 ^ 4))}%</p>
                 </dd>
               </div>
             </div>
