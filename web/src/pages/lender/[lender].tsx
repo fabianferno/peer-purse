@@ -7,6 +7,12 @@ import getUserAccountData from "@/utils/calls/getUserAccountData";
 import Image from "next/image";
 import Chat from "@/components/Chat";
 import SismoApp from "@/components/Sismo";
+import borrow from "@/utils/calls/borrow";
+import approveDelegation from "@/utils/calls/approveDelegation";
+import { formatEther, parseEther } from "viem";
+import { shortAddress } from "@/utils/shortAddress";
+import { de } from "date-fns/locale";
+import { parse } from "path";
 
 function LenderCard({ address, index }: any) {
   const [loading, setLoading] = useState(true);
@@ -100,9 +106,165 @@ function LenderCard({ address, index }: any) {
     </div>
   );
 }
+
+function ApproveDelegation() {
+  const [amount, setAmount] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const { web3Provider } = useAccountAbstraction();
+  const [txHash, setTxHash] = useState(null);
+  const [address, setAddress] = useState(formatEther(parseEther("0x0")));
+
+  const handle = async (e: any) => {
+    console.log("Amount:", amount);
+    setLoading(true);
+    let provider: any = web3Provider;
+    let signer = provider.getSigner();
+    try {
+      let tx: any = await approveDelegation(
+        signer,
+        address,
+        parseEther(String(amount))
+      );
+      setTxHash(tx.hash);
+      setLoading(false);
+    } catch (e) {
+      console.log(e);
+      setLoading(false);
+    }
+    e.preventDefault();
+  };
+
+  return (
+    <section>
+      <div className="bg-zinc-800 shadow sm:rounded-lg mt-2">
+        <div className="px-4 py-5 sm:p-6 flex justify-between items-center">
+          <div>
+            <h3 className="text-2xl font-semibold leading-4 text-gray-100">
+              Lend to borrower
+            </h3>
+            <div className="mt-3 text-md text-gray-500">
+              <p>Set the amount you would like to lend to the borrower.</p>
+            </div>
+          </div>
+          <div className="mt-5 sm:flex sm:items-center">
+            <div className=" ">
+              <label htmlFor="email" className="sr-only">
+                Amount
+              </label>
+              <input
+                type="number"
+                name="number"
+                id="number"
+                onChange={(e) => setAmount(parseFloat(e.target.value))}
+                className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-100 shadow-sm ring-1 ring-inset ring-gray-900 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-lg"
+                placeholder="Amt. in DAI"
+              />
+            </div>
+            <div className=" ">
+              <label htmlFor="email" className="sr-only">
+                Delegatee&apos;s address
+              </label>
+              <input
+                type="text"
+                name="text"
+                id="text"
+                onChange={(e) => setAddress(e.target.value)}
+                className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-100 shadow-sm ring-1 ring-inset ring-gray-900 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-lg"
+                placeholder="Delegatee"
+              />
+            </div>
+            <button
+              onClick={handle}
+              className="mt-3 inline-flex w-full items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-md font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:ml-3 sm:mt-0 sm:w-auto "
+            >
+              {loading
+                ? "Loading..."
+                : txHash
+                ? `${shortAddress(txHash)}`
+                : "Lend"}
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Borrow({ delegator }: any) {
+  const [amount, setAmount] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const { web3Provider } = useAccountAbstraction();
+  const [txHash, setTxHash] = useState(null);
+
+  const handle = async (e: any) => {
+    console.log("Amount:", amount);
+    setLoading(true);
+    let provider: any = web3Provider;
+    let signer = provider.getSigner();
+    let address = await signer.getAddress();
+    try {
+      let tx: any = await borrow(
+        signer,
+        delegator,
+        address,
+        parseEther(String(amount))
+      );
+      setTxHash(tx.hash);
+      setLoading(false);
+    } catch (e) {
+      console.log(e);
+      setLoading(false);
+    }
+    e.preventDefault();
+  };
+
+  return (
+    <section>
+      <div className="bg-zinc-800 shadow sm:rounded-lg mt-2">
+        <div className="px-4 py-5 sm:p-6 flex justify-between items-center">
+          <div>
+            <h3 className="text-2xl font-semibold leading-4 text-gray-100">
+              Borrow from lender
+            </h3>
+            <div className="mt-3 text-md text-gray-500">
+              <p>Set the amount you would like to borrow to the borrower.</p>
+            </div>
+          </div>
+          <div className="mt-5 sm:flex sm:items-center">
+            <div className=" ">
+              <label htmlFor="email" className="sr-only">
+                Amount
+              </label>
+              <input
+                type="number"
+                name="number"
+                id="number"
+                onChange={(e) => setAmount(parseFloat(e.target.value))}
+                className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-100 shadow-sm ring-1 ring-inset ring-gray-900 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-lg"
+                placeholder="Amt. in DAI"
+              />
+            </div>
+            <button
+              onClick={handle}
+              className="mt-3 inline-flex w-full items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-md font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:ml-3 sm:mt-0 sm:w-auto "
+            >
+              {loading
+                ? "Loading..."
+                : txHash
+                ? `${shortAddress(txHash)}`
+                : "Borrow"}
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function Lenders() {
   const router = useRouter();
   const { lender } = router.query;
+  const { ownerAddress } = useAccountAbstraction();
 
   useEffect(() => {
     console.log("lender", lender);
@@ -126,6 +288,8 @@ export default function Lenders() {
               <p className="text-zinc-400">powered by Sismo</p>
             </div>
             <SismoApp />
+
+            {lender != ownerAddress ? <Borrow /> : <ApproveDelegation />}
           </>
         ) : (
           <div>Loading...</div>

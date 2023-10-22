@@ -61,7 +61,7 @@ export default function SismoApp() {
 
   return (
     <main
-      className={`w-full min-h-screen flex-col items-center justify-between`}
+      className={`w-full min-h-[670px] flex-col items-center justify-between`}
     >
       <div className="flex justify-between items-center pt-5">
         <div className="bg-zinc-800 p-3 py-5 mb-5 w-full rounded-3xl ">

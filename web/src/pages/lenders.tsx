@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import getAccounts from "@/utils/calls/getAccounts";
 import getUserAccountData from "@/utils/calls/getUserAccountData";
-import { set } from "date-fns";
 
 function LenderCard({ address, index }: any) {
   const [loading, setLoading] = useState(true);
@@ -116,10 +115,10 @@ function LenderCard({ address, index }: any) {
 }
 
 export default function Lenders() {
-  const [lenders, setLenders] = useState<any>([]);
+  const [lenders, setLenders] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
-  const { web3Provider } = useAccountAbstraction();
+  const { web3Provider, isAuthenticated } = useAccountAbstraction();
 
   useEffect(() => {
     (async () => {
@@ -144,9 +143,10 @@ export default function Lenders() {
             role="list"
             className="grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3 xl:gap-x-8"
           >
-            {lenders.map((lender: any, index: number) => (
-              <LenderCard key={index} address={lender} />
-            ))}
+            {lenders &&
+              lenders.map((lender: any, index: number) => (
+                <LenderCard key={index} address={lender} />
+              ))}
           </ul>
         )}
       </main>
