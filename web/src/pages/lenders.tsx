@@ -6,17 +6,7 @@ import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import getAccounts from "@/utils/calls/getAccounts";
-
-const lenders = [
-  "0x64574dDbe98813b23364704e0B00E2e71fC5aD17",
-  "0x64574dDbe98813b23364704e0B00E2e71fC5aD17",
-  "0x64574dDbe98813b23364704e0B00E2e71fC5aD17",
-  "0x64574dDbe98813b23364704e0B00E2e71fC5aD17",
-  "0x64574dDbe98813b23364704e0B00E2e71fC5aD17",
-  "0x64574dDbe98813b23364704e0B00E2e71fC5aD17",
-  "0x64574dDbe98813b23364704e0B00E2e71fC5aD17",
-  "0x64574dDbe98813b23364704e0B00E2e71fC5aD17",
-];
+import getUserAccountData from "@/utils/calls/getUserAccountData";
 
 function LenderCard({ address, index }: any) {
   const [loading, setLoading] = useState(true);
@@ -27,16 +17,11 @@ function LenderCard({ address, index }: any) {
   useEffect(() => {
     (async () => {
       let provider: any = web3Provider;
-      let pool = new ethers.Contract(
-        "0xe7ea57b22d5f496bf9ca50a7830547b704ecb91f",
-        [
-          "function getUserAccountData(address) view returns (uint256 totalCollateralETH, uint256 totalDebtETH, uint256 availableBorrowsETH, uint256 currentLiquidationThreshold, uint256 ltv, uint256 healthFactor)",
-        ],
-        provider
-      );
-      await pool.getUserAccountData(address).then((data: any) => {
-        setData(data);
-        setLoading(false);
+      console.log(data);
+      await getUserAccountData(provider, address).then((_data: any) => {
+        // console.log(_data);
+        setData(_data);
+        // setLoading(false);
       });
     })();
   }, [address, data, web3Provider]);
@@ -70,39 +55,37 @@ function LenderCard({ address, index }: any) {
           <div className="flex justify-between gap-x-4 py-3">
             <dt className="text-gray-500">Total Collateral Base</dt>
             <dd className="text-gray-300">
-              <p>{JSON.stringify(parseFloat(data.totalCollateralETH))}</p>
+              <p>{data[0]}</p>
             </dd>
           </div>
           <div className="flex justify-between gap-x-4 py-3">
             <dt className="text-gray-500">Total Debt Base</dt>
             <dd className="text-gray-300">
-              <p>{JSON.stringify(parseFloat(data.totalDebtETH))}</p>
+              <p>{data[1]}</p>
             </dd>
           </div>
           <div className="flex justify-between gap-x-4 py-3">
             <dt className="text-gray-500">Available Borrow Base</dt>
             <dd className="text-gray-300">
-              <p>{JSON.stringify(parseFloat(data.availableBorrowsETH))}</p>
+              <p>{data[2]}</p>
             </dd>
           </div>
           <div className="flex justify-between gap-x-4 py-3">
             <dt className="text-gray-500">Liquidation Threshold</dt>
             <dd className="text-gray-300">
-              <p>
-                {JSON.stringify(parseFloat(data.currentLiquidationThreshold))}
-              </p>
+              <p>{data[3]}</p>
             </dd>
           </div>
           <div className="flex justify-between gap-x-4 py-3">
             <dt className="text-gray-500">Loan to Value</dt>
             <dd className="text-gray-300">
-              <p>{JSON.stringify(parseFloat(data.ltv))}</p>
+              <p>{data[4]}</p>
             </dd>
           </div>
           <div className="flex justify-between gap-x-4 py-3">
             <dt className="text-gray-500">Health Factor</dt>
             <dd className="flex items-start gap-x-2">
-              <p>{parseFloat(data.healthFactor)}</p>
+              <p>{data[5]}</p>
             </dd>
           </div>
         </dl>
@@ -120,11 +103,13 @@ export default function Lenders() {
   useEffect(() => {
     (async () => {
       let provider: any = web3Provider;
+      console.log("getting accouns");
       let accounts = await getAccounts(provider);
+      console.log(accounts);
       setLenders(accounts);
       setLoading(false);
     })();
-  }, [lenders, web3Provider]);
+  }, [web3Provider]);
 
   return (
     <Layout>
