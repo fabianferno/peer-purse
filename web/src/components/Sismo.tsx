@@ -107,7 +107,7 @@ export default function SismoApp() {
                   sendMessage(
                     xmtpClient,
                     conversation,
-                    JSON.stringify(response),
+                    "ZK Proof verified. Funds unlocked. - Message by PeerPurse",
                     ContentTypeText
                   );
                 })
