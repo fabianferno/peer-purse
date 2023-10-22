@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import { useAccountAbstraction } from "@/store/accountAbstractionContext";
 import Image from "next/image";
-import supplyAndRegisterAccount from "@/utils/calls/supplyAndRegisterAccount";
 import registerAccount from "@/utils/calls/registerAccount";
 import { useClient } from "@/hooks/useClient";
 
@@ -13,20 +12,6 @@ function SupplyAndRegisterCard() {
   const { web3Provider } = useAccountAbstraction();
 
   const handleSupplyAndRegister = async (e: any) => {
-    console.log("Amount:", amount);
-    setLoading(true);
-    let provider: any = web3Provider;
-    let signer = provider.getSigner();
-    let address = await signer.getAddress();
-    let signature: any = [];
-    let data = await supplyAndRegisterAccount(
-      provider,
-      address,
-      String(amount),
-      signature
-    );
-    console.log(data);
-    setLoading(false);
     e.preventDefault();
   };
 
