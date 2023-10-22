@@ -121,6 +121,10 @@ export default function Lenders() {
               <p className="text-zinc-400">powered by XMTP</p>
             </div>
             <Chat address={lender} />
+            <div className="mt-6">
+              <h3 className="text-2xl font-bold">Send Proofs</h3>{" "}
+              <p className="text-zinc-400">powered by Sismo</p>
+            </div>
             <SismoApp />
           </>
         ) : (

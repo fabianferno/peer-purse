@@ -3,6 +3,10 @@ import Layout from "./Layout";
 import DropDown from "./Dropdown";
 import { useEffect, useState } from "react";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import { useClient } from "@/hooks/useClient";
+import { sendMessage } from "../model/messages";
+import { ContentTypeText } from "@xmtp/xmtp-js";
+
 import {
   SismoConnect,
   SismoConnectButton,
@@ -30,6 +34,7 @@ export default function SismoApp() {
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
   const [group, setGroup] = useState<any>({});
+  const xmtpClient: any = useClient();
 
   const client = new ApolloClient({
     uri: "https://api.sismo.io",
@@ -56,9 +61,8 @@ export default function SismoApp() {
 
   return (
     <main
-      className={`w-full min-h-screen flex-col items-center justify-between mt-12`}
+      className={`w-full min-h-screen flex-col items-center justify-between`}
     >
-      <h1 className="text-3xl font-bold mt-3">Send proofs</h1>
       <div className="flex justify-between items-center pt-5">
         <div className="bg-zinc-800 p-3 py-5 mb-5 w-full rounded-3xl ">
           <p className="text-sm text-zinc-400">
@@ -94,8 +98,19 @@ export default function SismoApp() {
                   response: response,
                 }),
               })
-                .then((response) => response.json())
-                .then((result) => {
+                .then((response) => {
+                  console.log(response);
+                  let conversationString: any =
+                    localStorage.getItem("conversation");
+                  let conversation = JSON.parse(conversationString);
+                  sendMessage(
+                    xmtpClient,
+                    conversation,
+                    JSON.stringify(response),
+                    ContentTypeText
+                  );
+                })
+                .then((result: any) => {
                   if (result.error) {
                     console.log("ERROR");
                     console.log(result.message);
