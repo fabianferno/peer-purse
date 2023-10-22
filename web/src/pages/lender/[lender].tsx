@@ -13,6 +13,7 @@ import { formatEther, parseEther } from "viem";
 import { shortAddress } from "@/utils/shortAddress";
 import { de } from "date-fns/locale";
 import { parse } from "path";
+import Link from "next/link";
 
 function LenderCard({ address, index }: any) {
   const [loading, setLoading] = useState(true);
@@ -184,6 +185,15 @@ function ApproveDelegation() {
                 ? `${shortAddress(txHash)}`
                 : "Lend"}
             </button>
+
+            {txHash && (
+              <Link
+                className="text-sm"
+                href={`https://goerli.etherscan.io/tx/${txHash}`}
+              >
+                View on Etherscan
+              </Link>
+            )}
           </div>
         </div>
       </div>
@@ -255,6 +265,15 @@ function Borrow({ delegator }: any) {
                 ? `${shortAddress(txHash)}`
                 : "Borrow"}
             </button>
+
+            {txHash && (
+              <Link
+                className="text-sm"
+                href={`https://goerli.etherscan.io/tx/${txHash}`}
+              >
+                View on Etherscan
+              </Link>
+            )}
           </div>
         </div>
       </div>

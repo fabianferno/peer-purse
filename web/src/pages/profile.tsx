@@ -4,13 +4,12 @@ import { useAccountAbstraction } from "@/store/accountAbstractionContext";
 import Image from "next/image";
 import registerAccount from "@/utils/calls/registerAccount";
 import getUserAccountData from "@/utils/calls/getUserAccountData";
-import getAccounts from "@/utils/calls/getAccounts";
-import approveDelegation from "@/utils/calls/approveDelegation";
 import approve from "@/utils/calls/approve";
 import { useClient } from "@/hooks/useClient";
 import supply from "@/utils/calls/supply";
 import { shortAddress } from "@/utils/shortAddress";
 import { parseEther, formatEther } from "viem";
+import { Link } from "lucide-react";
 
 function ApproveCard() {
   const [amount, setAmount] = useState(0);
@@ -69,6 +68,15 @@ function ApproveCard() {
                 ? `${shortAddress(txHash)}`
                 : "Approve"}
             </button>
+
+            {txHash && (
+              <Link
+                className="text-sm"
+                href={`https://goerli.etherscan.io/tx/${txHash}`}
+              >
+                View on Etherscan
+              </Link>
+            )}
           </div>
         </div>
       </div>
@@ -138,6 +146,15 @@ function SupplyCard() {
                 ? `${shortAddress(txHash)}`
                 : "Supply"}
             </button>
+
+            {txHash && (
+              <Link
+                className="text-sm"
+                href={`https://goerli.etherscan.io/tx/${txHash}`}
+              >
+                View on Etherscan
+              </Link>
+            )}
           </div>
         </div>
       </div>
@@ -181,6 +198,15 @@ function RegisterCard() {
             >
               {loading ? "Loading..." : tx ? `${shortAddress(tx)}` : "Register"}
             </button>
+
+            {tx && (
+              <Link
+                className="text-sm"
+                href={`https://goerli.etherscan.io/tx/${tx}`}
+              >
+                View on Etherscan
+              </Link>
+            )}
           </div>
         </div>
       </div>
