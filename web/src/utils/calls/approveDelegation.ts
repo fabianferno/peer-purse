@@ -16,5 +16,5 @@ export default async function approveDelegation(
 
   console.log(tx);
 
-  return "DONE";
+  return tx;
 }

@@ -135,7 +135,7 @@ export default function Layout({ children }: Props) {
             children
           ) : (
             <div className="bg-black h-full text-6xl font-bold text-white m-24 p-24 text-center">
-              Loading
+              Loading...
             </div>
           )}
         </main>

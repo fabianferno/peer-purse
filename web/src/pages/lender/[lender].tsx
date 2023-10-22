@@ -125,6 +125,7 @@ function ApproveDelegation() {
         address,
         parseEther(String(amount))
       );
+      console.log(tx);
       setTxHash(tx.hash);
       setLoading(false);
     } catch (e) {
