@@ -1,4 +1,4 @@
-export const PEER_PURSE_ADDRESS = "0x05ac58f4cf227b682e4db36d7c7e336a1f14f3be";
+export const PEER_PURSE_ADDRESS = "0x4caa4b4E916127E54a7097a1abF032c441BB1bB7";
 export const POOL_ADDRESS = "0xe7ea57b22d5f496bf9ca50a7830547b704ecb91f";
 export const DAI_TOKEN_ADDRESS = "0x11fE4B6AE13d2a6055C8D9cF65c55bac32B5d844";
 export const PEER_PURSE_ABI = [
@@ -6,7 +6,7 @@ export const PEER_PURSE_ABI = [
     anonymous: false,
     inputs: [
       {
-        indexed: true,
+        indexed: false,
         internalType: "address",
         name: "account",
         type: "address",
@@ -22,191 +22,167 @@ export const PEER_PURSE_ABI = [
     type: "event",
   },
   {
-    inputs: [],
-    name: "DAI_ADDRESS",
-    outputs: [
+    anonymous: false,
+    inputs: [
       {
-        internalType: "contract IDai",
-        name: "",
+        indexed: false,
+        internalType: "address",
+        name: "borrower",
         type: "address",
       },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "lender",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "borrowAmount",
+        type: "uint256",
+      },
+    ],
+    name: "FundsBorrowed",
+    type: "event",
+  },
+  {
+    inputs: [],
+    name: "BORROW_DOMAIN_SEPERATOR",
+    outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "DAI_ADDRESS",
+    outputs: [{ internalType: "contract IDai", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "DEBT_ADDRESS",
+    outputs: [
+      { internalType: "contract IDebtToken", name: "", type: "address" },
     ],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
-    name: "DOMAIN_SEPARATOR",
-    outputs: [
-      {
-        internalType: "bytes32",
-        name: "",
-        type: "bytes32",
-      },
-    ],
+    name: "DELEGATION_WITH_SIG_TYPEHASH",
+    outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "PERMIT_TYPEHASH",
-    outputs: [
-      {
-        internalType: "bytes32",
-        name: "",
-        type: "bytes32",
-      },
-    ],
+    outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "POOL_ADDRESS",
-    outputs: [
-      {
-        internalType: "contract IPool",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    name: "accounts",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
+    outputs: [{ internalType: "contract IPool", name: "", type: "address" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
-    name: "getAllAccounts",
-    outputs: [
-      {
-        internalType: "address[]",
-        name: "",
-        type: "address[]",
-      },
-    ],
+    name: "SUPPLY_DOMAIN_SEPARATOR",
+    outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      {
-        internalType: "address",
-        name: "aaWallet",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
+      { internalType: "address", name: "aaWallet", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
     ],
-    name: "getDigest",
-    outputs: [
-      {
-        internalType: "bytes32",
-        name: "",
-        type: "bytes32",
-      },
+    name: "_registerAccount",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    name: "accounts",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "amount", type: "uint256" },
+      { internalType: "address", name: "delegator", type: "address" },
+      { internalType: "bytes", name: "signature", type: "bytes" },
     ],
+    name: "borrowFundsWithSignature",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getAllAccounts",
+    outputs: [{ internalType: "address[]", name: "", type: "address[]" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "delegator", type: "address" },
+      { internalType: "address", name: "delegatee", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
+    ],
+    name: "getDigestForBorrow",
+    outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "aaWallet", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
+    ],
+    name: "getDigestForSupply",
+    outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
     stateMutability: "pure",
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
+    inputs: [{ internalType: "address", name: "", type: "address" }],
     name: "isRegistered",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
-    ],
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
     stateMutability: "view",
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "aaWallet",
-        type: "address",
-      },
-    ],
+    inputs: [{ internalType: "address", name: "aaWallet", type: "address" }],
     name: "registerAccount",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "bytes",
-        name: "signature",
-        type: "bytes",
-      },
-    ],
+    inputs: [{ internalType: "bytes", name: "signature", type: "bytes" }],
     name: "splitSignature",
     outputs: [
-      {
-        internalType: "uint8",
-        name: "v",
-        type: "uint8",
-      },
-      {
-        internalType: "bytes32",
-        name: "r",
-        type: "bytes32",
-      },
-      {
-        internalType: "bytes32",
-        name: "s",
-        type: "bytes32",
-      },
+      { internalType: "uint8", name: "v", type: "uint8" },
+      { internalType: "bytes32", name: "r", type: "bytes32" },
+      { internalType: "bytes32", name: "s", type: "bytes32" },
     ],
     stateMutability: "pure",
     type: "function",
   },
   {
     inputs: [
-      {
-        internalType: "address",
-        name: "aaWallet",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-      {
-        internalType: "bytes",
-        name: "signature",
-        type: "bytes",
-      },
+      { internalType: "address", name: "aaWallet", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
+      { internalType: "bytes", name: "signature", type: "bytes" },
     ],
     name: "supplyAndRegister",
     outputs: [],
