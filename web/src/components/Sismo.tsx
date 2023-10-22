@@ -103,10 +103,11 @@ export default function SismoApp() {
                   let conversationString: any =
                     localStorage.getItem("conversation");
                   let conversation = JSON.parse(conversationString);
+                  console.log("conversation after sismo: ", conversation);
                   sendMessage(
                     xmtpClient,
                     conversation,
-                    JSON.stringify(response),
+                    "ZK Proof verified. Funds unlocked. - Message by PeerPurse",
                     ContentTypeText
                   );
                 })
