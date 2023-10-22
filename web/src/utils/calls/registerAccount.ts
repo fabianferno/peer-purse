@@ -12,5 +12,5 @@ export default async function registerAccount(provider: any, aaWallet: string) {
 
   console.log(tx);
 
-  return "DONE";
+  return tx;
 }

@@ -20,6 +20,7 @@ function LenderCard({ address, index }: any) {
       let provider: any = web3Provider;
       if (provider) {
         await getUserAccountData(provider, address).then((_data: any) => {
+          console.log(_data);
           setData(_data);
           setLoading(false);
         });
@@ -56,37 +57,56 @@ function LenderCard({ address, index }: any) {
           <div className="flex justify-between gap-x-4 py-3">
             <dt className="text-gray-500">Total Collateral Base</dt>
             <dd className="text-gray-300">
-              <p>{data[0]}</p>
+              <p>
+                {" "}
+                {JSON.stringify(
+                  parseFloat(data.totalCollateralBase) * (10 ^ 8)
+                )}{" "}
+                DAI
+              </p>
             </dd>
           </div>
           <div className="flex justify-between gap-x-4 py-3">
             <dt className="text-gray-500">Total Debt Base</dt>
             <dd className="text-gray-300">
-              <p>{data[1]}</p>
+              <p>
+                {" "}
+                {JSON.stringify(parseFloat(data.totalDebtBase) * (10 ^ 8))} DAI
+              </p>
             </dd>
           </div>
           <div className="flex justify-between gap-x-4 py-3">
             <dt className="text-gray-500">Available Borrow Base</dt>
             <dd className="text-gray-300">
-              <p>{data[2]}</p>
+              <p>
+                {JSON.stringify(
+                  parseFloat(data.availableBorrowsBase) * (10 ^ 8)
+                )}{" "}
+                DAI
+              </p>
             </dd>
           </div>
           <div className="flex justify-between gap-x-4 py-3">
             <dt className="text-gray-500">Liquidation Threshold</dt>
             <dd className="text-gray-300">
-              <p>{data[3]}</p>
+              <p>
+                {JSON.stringify(
+                  parseFloat(data.currentLiquidationThreshold) * (10 ^ 8)
+                )}
+                %
+              </p>
             </dd>
           </div>
           <div className="flex justify-between gap-x-4 py-3">
             <dt className="text-gray-500">Loan to Value</dt>
             <dd className="text-gray-300">
-              <p>{data[4]}</p>
+              <p>{JSON.stringify(parseFloat(data.ltv) * (10 ^ 4))}%</p>
             </dd>
           </div>
           <div className="flex justify-between gap-x-4 py-3">
             <dt className="text-gray-500">Health Factor</dt>
             <dd className="flex items-start gap-x-2">
-              <p>{data[5]}</p>
+              <p>{JSON.stringify(parseFloat(data.ltv) * (10 ^ 8))}%</p>
             </dd>
           </div>
         </dl>

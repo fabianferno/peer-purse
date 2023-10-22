@@ -6,22 +6,26 @@ import registerAccount from "@/utils/calls/registerAccount";
 import getUserAccountData from "@/utils/calls/getUserAccountData";
 import getAccounts from "@/utils/calls/getAccounts";
 import approveDelegation from "@/utils/calls/approveDelegation";
+import approve from "@/utils/calls/approve";
 import { useClient } from "@/hooks/useClient";
 import supply from "@/utils/calls/supply";
+import { shortAddress } from "@/utils/shortAddress";
+import { parseEther, formatEther } from "viem";
 
 function ApproveCard() {
   const [amount, setAmount] = useState(0);
   const [loading, setLoading] = useState(false);
   const { web3Provider } = useAccountAbstraction();
+  const [txHash, setTxHash] = useState("");
 
   const handleApprove = async (e: any) => {
     console.log("Amount:", amount);
     setLoading(true);
     let provider: any = web3Provider;
     let signer = provider.getSigner();
-    let address = await signer.getAddress();
-    let data = await approveDelegation(signer, address, String(amount));
-    console.log(data);
+    let tx = await approve(signer, String(parseEther(String(amount))));
+    setTxHash(tx.hash);
+    console.log(tx);
     setLoading(false);
     e.preventDefault();
   };
@@ -32,7 +36,7 @@ function ApproveCard() {
         <div className="px-4 py-5 sm:p-6 flex justify-between items-center">
           <div>
             <h3 className="text-2xl font-semibold leading-4 text-gray-100">
-              Approve delegation to Peer Purse
+              Approve wstETH to Peer Purse
             </h3>
             <div className="mt-3 text-md text-gray-500">
               <p>
@@ -52,14 +56,18 @@ function ApproveCard() {
                 id="number"
                 onChange={(e) => setAmount(parseFloat(e.target.value))}
                 className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-100 shadow-sm ring-1 ring-inset ring-gray-900 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-lg"
-                placeholder="Amt. in DAI"
+                placeholder="Amt. in wstETH"
               />
             </div>
             <button
               onClick={handleApprove}
               className="mt-3 inline-flex w-full items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-md font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:ml-3 sm:mt-0 sm:w-auto "
             >
-              {loading ? "Loading..." : "Approve"}
+              {loading
+                ? "Loading..."
+                : txHash
+                ? `${shortAddress(txHash)}`
+                : "Approve"}
             </button>
           </div>
         </div>
@@ -72,6 +80,7 @@ function SupplyCard() {
   const [amount, setAmount] = useState(0);
   const [loading, setLoading] = useState(false);
   const { web3Provider } = useAccountAbstraction();
+  const [txHash, setTxHash] = useState(null);
 
   const handleSupply = async (e: any) => {
     console.log("Amount:", amount);
@@ -79,9 +88,14 @@ function SupplyCard() {
     let provider: any = web3Provider;
     let signer = provider.getSigner();
     let address = await signer.getAddress();
-    let data = await supply(signer, address, String(amount));
-    console.log(data);
-    setLoading(false);
+    try {
+      let tx = await supply(signer, address, parseEther(String(amount)));
+      setTxHash(tx.hash);
+      setLoading(false);
+    } catch (e) {
+      console.log(e);
+      setLoading(false);
+    }
     e.preventDefault();
   };
 
@@ -118,7 +132,11 @@ function SupplyCard() {
               onClick={handleSupply}
               className="mt-3 inline-flex w-full items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-md font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:ml-3 sm:mt-0 sm:w-auto "
             >
-              {loading ? "Loading..." : "Supply"}
+              {loading
+                ? "Loading..."
+                : txHash
+                ? `${shortAddress(txHash)}`
+                : "Supply"}
             </button>
           </div>
         </div>
@@ -129,6 +147,7 @@ function SupplyCard() {
 
 function RegisterCard() {
   const [loading, setLoading] = useState(false);
+  const [tx, setTx] = useState(null);
   const { web3Provider } = useAccountAbstraction();
 
   const handleRegister = async (e: any) => {
@@ -136,8 +155,9 @@ function RegisterCard() {
     let provider: any = web3Provider;
     let signer = provider.getSigner();
     let address = await signer.getAddress();
-    let data = await registerAccount(provider, address);
-    console.log(data);
+    let tx = await registerAccount(signer, address);
+    setTx(tx.hash);
+    console.log(tx);
     setLoading(false);
     e.preventDefault();
   };
@@ -148,20 +168,20 @@ function RegisterCard() {
         <div className="px-4 py-5 sm:p-6 flex justify-between items-center">
           <div>
             <h3 className="text-2xl font-semibold leading-4 text-gray-100">
-              Good, you have collaterals, register to Peer Purse
+              Good, you have collaterals, now register to Peer Purse
             </h3>
             <div className="mt-3 text-md text-gray-500">
               <p>Click to add yourself as a lender on the platform</p>
             </div>
           </div>
-          <form className="mt-5 sm:flex sm:items-center">
+          <div className="mt-5 sm:flex sm:items-center">
             <button
               onClick={handleRegister}
               className="mt-3 inline-flex w-full items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-md font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:ml-3 sm:mt-0 sm:w-auto  "
             >
-              {loading ? "Loading..." : "Register"}
+              {loading ? "Loading..." : tx ? `${shortAddress(tx)}` : "Register"}
             </button>
-          </form>
+          </div>
         </div>
       </div>
     </section>

@@ -12,5 +12,5 @@ export default async function approve(provider: any, amount: string) {
 
   console.log(tx);
 
-  return "DONE";
+  return tx;
 }
