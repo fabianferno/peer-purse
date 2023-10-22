@@ -4,6 +4,7 @@ import { ethers } from "ethers";
 import { useAccountAbstraction } from "@/store/accountAbstractionContext";
 import Image from "next/image";
 import registerAccount from "@/utils/calls/registerAccount";
+import getUserAccountData from "@/utils/calls/getUserAccountData";
 import { useClient } from "@/hooks/useClient";
 
 function SupplyAndRegisterCard() {
@@ -150,19 +151,11 @@ export default function Onboarding() {
   useEffect(() => {
     (async () => {
       let provider: any = web3Provider;
-      let pool = new ethers.Contract(
-        "0x26ca51Af4506DE7a6f0785D20CD776081a05fF6d",
-        [
-          "function getUserAccountData(address) view returns (uint256 totalCollateralETH, uint256 totalDebtETH, uint256 availableBorrowsETH, uint256 currentLiquidationThreshold, uint256 ltv, uint256 healthFactor)",
-        ],
-        provider
-      );
-      await pool
-        .getUserAccountData("0x71B43a66324C7b80468F1eE676E7FCDaF63eB6Ac")
-        .then((data: any) => {
-          setData(data);
-          setaccountDataLoading(false);
-        });
+      let address: any = ownerAddress;
+      await getUserAccountData(provider, address).then((data: any) => {
+        setData(data);
+        setaccountDataLoading(false);
+      });
     })();
   }, [ownerAddress, web3Provider]);
 
