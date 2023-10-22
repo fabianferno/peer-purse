@@ -290,7 +290,11 @@ export default function Lenders() {
             </div>
             <SismoApp />
 
-            {lender != ownerAddress ? <Borrow /> : <ApproveDelegation />}
+            {lender != ownerAddress ? (
+              <Borrow delegator={lender} />
+            ) : (
+              <ApproveDelegation />
+            )}
           </>
         ) : (
           <div>Loading...</div>
