@@ -52,8 +52,8 @@ export default function Chat({ children }: Props) {
   }, [conversation]);
 
   return (
-    <main className="mb-3">
-      <div className="max-w-3xl mx-auto p-3 rounded-3xl bg-zinc-900 border border-zinc-800  max-h-[500px]">
+    <main className="my-3">
+      <div className="mx-auto p-3 rounded-xl bg-zinc-900 border border-zinc-800  max-h-[500px]">
         {client ? (
           <div className="grid grid-row-12 gap-x-5">
             <div className="col-span-8 reset-last-message flex flex-col space-y-2">
