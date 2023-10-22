@@ -44,7 +44,7 @@ function SupplyAndRegisterCard() {
             </div>
           </div>
           <form className="mt-5 sm:flex sm:items-center">
-            <div className="w-full sm:max-w-xs">
+            <div className=" ">
               <label htmlFor="email" className="sr-only">
                 Amount
               </label>
@@ -59,7 +59,7 @@ function SupplyAndRegisterCard() {
             </div>
             <button
               onClick={handleSupplyAndRegister}
-              className="mt-3 inline-flex w-full items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-md font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:ml-3 sm:mt-0 sm:w-auto  "
+              className="mt-3 inline-flex w-full items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-md font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:ml-3 sm:mt-0 sm:w-auto "
             >
               {loading ? "Loading..." : "Supply & Register"}
             </button>
@@ -201,7 +201,7 @@ export default function Onboarding() {
         </div>
 
         <div className="flex flex-col gap-y-4 my-5">
-          {data.totalCollateralETH > 0 ? (
+          {parseFloat(data.totalCollateralETH) === 0 ? (
             <SupplyAndRegisterCard />
           ) : (
             <RegisterCard />
