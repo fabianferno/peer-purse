@@ -52,36 +52,36 @@ function LenderCard({ address, index }: any) {
       {loading ? (
         <div>Loading...</div>
       ) : (
-        <div className="-my-2  flex bg-zinc-900  px-5 py-2  text-sm leading-6">
-          <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4">
+        <div className="-my-2  flex bg-zinc-900 px-2 py-2  text-sm leading-6">
+          <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4 flex flex-col justify-between">
             <dt className="text-zinc-200">Total Collateral Base</dt>
-            <dd className="text-zinc-900 text-3xl font-bold">
+            <dd className="text-white text-3xl font-bold">
               <p>{JSON.stringify(parseFloat(data.totalCollateralETH))}</p>
             </dd>
           </div>
-          <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4">
+          <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4 flex flex-col justify-between">
             <dt className="text-zinc-200">Total Debt</dt>
-            <dd className="text-zinc-900 text-3xl font-bold">
+            <dd className="text-white text-3xl font-bold">
               <p>{JSON.stringify(parseFloat(data.totalDebtETH))}</p>
             </dd>
           </div>
-          <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4">
+          <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4 flex flex-col justify-between">
             <dt className="text-zinc-200">Available Borrows</dt>
-            <dd className="text-zinc-900 text-3xl font-bold">
+            <dd className="text-white text-3xl font-bold">
               <p>{JSON.stringify(parseFloat(data.availableBorrowsETH))}</p>
             </dd>
           </div>
-          <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4">
+          <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4 flex flex-col justify-between">
             <dt className="text-zinc-200">Current Liquidation Threshold</dt>
-            <dd className="text-zinc-900 text-3xl font-bold">
+            <dd className="text-white text-3xl font-bold">
               <p>
                 {JSON.stringify(parseFloat(data.currentLiquidationThreshold))}
               </p>
             </dd>
           </div>
-          <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4">
+          <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4 flex flex-col justify-between">
             <dt className="text-zinc-200">Loan to Value</dt>
-            <dd className="text-zinc-900 text-3xl font-bold">
+            <dd className="text-white text-3xl font-bold">
               <p>{JSON.stringify(parseFloat(data.ltv))}</p>
             </dd>
           </div>

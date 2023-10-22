@@ -170,30 +170,30 @@ export default function Onboarding() {
             </div>
           </div>
           {accountDataLoading ? (
-            <div>accountDataLoading...</div>
+            <div>Loading...</div>
           ) : (
-            <dl className="-my-2 divide-y bg-zinc-900 divide-zinc-700 px-5 py-2  text-sm leading-6">
-              <div className="flex justify-between gap-x-4 py-3">
-                <dt className="text-gray-500">Total Collateral Base</dt>
-                <dd className="text-gray-300">
+            <div className="-my-2  flex bg-zinc-900 px-2 py-2  text-sm leading-6">
+              <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4 flex flex-col justify-between">
+                <dt className="text-zinc-200">Total Collateral Base</dt>
+                <dd className="text-white text-3xl font-bold">
                   <p>{JSON.stringify(parseFloat(data.totalCollateralETH))}</p>
                 </dd>
               </div>
-              <div className="flex justify-between gap-x-4 py-3">
-                <dt className="text-gray-500">Total Debt Base</dt>
-                <dd className="text-gray-300">
+              <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4 flex flex-col justify-between">
+                <dt className="text-zinc-200">Total Debt</dt>
+                <dd className="text-white text-3xl font-bold">
                   <p>{JSON.stringify(parseFloat(data.totalDebtETH))}</p>
                 </dd>
               </div>
-              <div className="flex justify-between gap-x-4 py-3">
-                <dt className="text-gray-500">Available Borrow Base</dt>
-                <dd className="text-gray-300">
+              <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4 flex flex-col justify-between">
+                <dt className="text-zinc-200">Available Borrows</dt>
+                <dd className="text-white text-3xl font-bold">
                   <p>{JSON.stringify(parseFloat(data.availableBorrowsETH))}</p>
                 </dd>
               </div>
-              <div className="flex justify-between gap-x-4 py-3">
-                <dt className="text-gray-500">Liquidation Threshold</dt>
-                <dd className="text-gray-300">
+              <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4 flex flex-col justify-between">
+                <dt className="text-zinc-200">Current Liquidation Threshold</dt>
+                <dd className="text-white text-3xl font-bold">
                   <p>
                     {JSON.stringify(
                       parseFloat(data.currentLiquidationThreshold)
@@ -201,13 +201,13 @@ export default function Onboarding() {
                   </p>
                 </dd>
               </div>
-              <div className="flex justify-between gap-x-4 py-3">
-                <dt className="text-gray-500">Loan to Value</dt>
-                <dd className="text-gray-300">
+              <div className="bg-zinc-700 m-1 w-full p-2 rounded-xl gap-x-4 flex flex-col justify-between">
+                <dt className="text-zinc-200">Loan to Value</dt>
+                <dd className="text-white text-3xl font-bold">
                   <p>{JSON.stringify(parseFloat(data.ltv))}</p>
                 </dd>
               </div>
-            </dl>
+            </div>
           )}
         </div>
 
