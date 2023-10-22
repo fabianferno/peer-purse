@@ -10,7 +10,7 @@ import "./interface/IDebtToken.sol";
 contract PeerPurse {
 
     /// @dev The address of the Pool contract.
-    IPool public constant POOL_ADDRESS = IPool(0xe7EA57b22D5F496BF9Ca50a7830547b704Ecb91F);
+    IPool public constant POOL_ADDRESS = IPool(0x26ca51Af4506DE7a6f0785D20CD776081a05fF6d);
 
     /// @dev The address of the DAI contract.
     IDai public constant DAI_ADDRESS = IDai(0x11fE4B6AE13d2a6055C8D9cF65c55bac32B5d844);
@@ -35,50 +35,25 @@ contract PeerPurse {
     address[] public accounts;
 
     /// @dev Event to log the creation of an account.
-    event AccountCreated(address account, uint supplyAmount);
+    event AccountCreated(address account);
     event FundsBorrowed(address borrower, address lender,uint borrowAmount);
 
-    /// @dev Function to supply DAI with a permit and register the account.
-    /// @param aaWallet The address of the account.
-    /// @param amount The amount of DAI to supply.
-    /// @param signature The permit signature.
-    function supplyAndRegister(address aaWallet, uint256 amount, bytes memory signature) public {
-        require(amount>0,"Amount should be greater than 0");
-        (uint8 permitV, bytes32 permitR, bytes32 permitS) = splitSignature(signature);
-        POOL_ADDRESS.supplyWithPermit(address(DAI_ADDRESS), amount, aaWallet, type(uint16).min, type(uint256).max, permitV, permitR, permitS);
-        _registerAccount(aaWallet, amount);
-    }
 
     /// @dev Function to register an account.
     /// @param aaWallet The address of the account to be registered.
     function registerAccount(address aaWallet) public {
-        _registerAccount(aaWallet, 0);
+        _registerAccount(aaWallet);
     }
 
     /// @dev Internal function to register an account.
     /// @param aaWallet The address of the account to be registered.
-    /// @param amount The amount of DAI to supply.
-    function _registerAccount(address aaWallet,uint amount) internal{
+    function _registerAccount(address aaWallet) internal{
         require(!isRegistered[aaWallet], "Already registered");
         accounts.push(aaWallet);
         isRegistered[aaWallet] = true;
-        emit AccountCreated(aaWallet, amount);
+        emit AccountCreated(aaWallet);
     }
 
-
-    /// @dev Function to borrow funds from a registered account.
-    /// @param amount The amount of DAI to borrow.
-    /// @param delegator The address of the account to borrow from.
-    /// @param signature The permit signature.
-    function borrowFundsWithSignature(uint256 amount,address delegator,bytes memory signature) public {
-        (uint8 v, bytes32 r, bytes32 s) = splitSignature(signature);
-
-        DEBT_ADDRESS.delegationWithSig(delegator, address(this), amount, type(uint256).max, v, r, s);
-        POOL_ADDRESS.borrow(address(DAI_ADDRESS), amount, 1, 0, address(this));
-        DAI_ADDRESS.transfer(msg.sender, amount);
-
-        emit FundsBorrowed(msg.sender, delegator,amount);
-    }
 
 
     function getDigestForBorrow(address delegator,address delegatee, uint256 amount) public view returns (bytes32) {

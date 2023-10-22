@@ -1,4 +1,4 @@
-export const PEER_PURSE_ADDRESS = "0x4caa4b4E916127E54a7097a1abF032c441BB1bB7";
+export const PEER_PURSE_ADDRESS = "0x8A49Da0f4d2c92e9a6726617634B14eE80A584da";
 export const POOL_ADDRESS = "0xe7ea57b22d5f496bf9ca50a7830547b704ecb91f";
 export const DAI_TOKEN_ADDRESS = "0x11fE4B6AE13d2a6055C8D9cF65c55bac32B5d844";
 export const PEER_PURSE_ABI = [
@@ -10,12 +10,6 @@ export const PEER_PURSE_ABI = [
         internalType: "address",
         name: "account",
         type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "supplyAmount",
-        type: "uint256",
       },
     ],
     name: "AccountCreated",
@@ -98,31 +92,10 @@ export const PEER_PURSE_ABI = [
     type: "function",
   },
   {
-    inputs: [
-      { internalType: "address", name: "aaWallet", type: "address" },
-      { internalType: "uint256", name: "amount", type: "uint256" },
-    ],
-    name: "_registerAccount",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
     inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     name: "accounts",
     outputs: [{ internalType: "address", name: "", type: "address" }],
     stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "uint256", name: "amount", type: "uint256" },
-      { internalType: "address", name: "delegator", type: "address" },
-      { internalType: "bytes", name: "signature", type: "bytes" },
-    ],
-    name: "borrowFundsWithSignature",
-    outputs: [],
-    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -176,17 +149,6 @@ export const PEER_PURSE_ABI = [
       { internalType: "bytes32", name: "s", type: "bytes32" },
     ],
     stateMutability: "pure",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "address", name: "aaWallet", type: "address" },
-      { internalType: "uint256", name: "amount", type: "uint256" },
-      { internalType: "bytes", name: "signature", type: "bytes" },
-    ],
-    name: "supplyAndRegister",
-    outputs: [],
-    stateMutability: "nonpayable",
     type: "function",
   },
 ];
