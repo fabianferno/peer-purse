@@ -4,6 +4,7 @@ import { ethers } from "ethers";
 import { useAccountAbstraction } from "@/store/accountAbstractionContext";
 import Image from "next/image";
 import supplyAndRegisterAccount from "@/utils/calls/supplyAndRegisterAccount";
+import registerAccount from "@/utils/calls/registerAccount";
 
 function SupplyAndRegisterCard() {
   const [amount, setAmount] = useState(0);
@@ -71,7 +72,17 @@ function SupplyAndRegisterCard() {
 }
 
 function RegisterCard() {
+  const [loading, setLoading] = useState(false);
+  const { web3Provider } = useAccountAbstraction();
+
   const handleRegister = async (e: any) => {
+    setLoading(true);
+    let provider: any = web3Provider;
+    let signer = provider.getSigner();
+    let address = await signer.getAddress();
+    let data = await registerAccount(provider, address);
+    console.log(data);
+    setLoading(false);
     e.preventDefault();
   };
 
@@ -89,10 +100,10 @@ function RegisterCard() {
           </div>
           <form className="mt-5 sm:flex sm:items-center">
             <button
-              type="submit"
+              onClick={handleRegister}
               className="mt-3 inline-flex w-full items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-md font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:ml-3 sm:mt-0 sm:w-auto  "
             >
-              Register
+              {loading ? "Loading..." : "Register"}
             </button>
           </form>
         </div>
