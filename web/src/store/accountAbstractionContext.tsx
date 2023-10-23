@@ -131,6 +131,7 @@ const AccountAbstractionProvider = ({
           loginMethodsOrder: ["google", "facebook"],
         },
       };
+      //
 
       const modalConfig = {
         [WALLET_ADAPTERS.TORUS_EVM]: {
