@@ -1,40 +1,11 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Peer Purse Protocol
+An under-collateralized P2P credit delegation borrowing protocol with verifiable credibility using zkProofs
 
-## Getting Started
+## Project Description
+This project helps users to borrow money without any collateral and any intermediary protocols. Users sign in with our platform using their Gmail account to enter our dApp. One can choose to supply DAI/WETH/USDC to provide loans to borrowers. The user supplies funds to the pool and registers his account in PeerPurse. When a user who needs to borrow money wants to lend money from the person who supplied funds to the dApp, he initiates a chat with the user to release the funds. The lender can ask the borrower to provide zero knowledge proofs which can be verified in the chat using a zkVerifier and on successful verification, the lender would borrow funds to the user seamlessly and without any middle man protocol ensuring transparency and trust-free P2P experience.
 
-First, run the development server:
+## How it's Made
+We use the Safe AA SDK + Stripe On Ramp to log-in using Gmail and create a crypto wallet instantly. Our entire dApp is deployed on Goerli Testnet. We use the Spark Protocol, Sismo and XMTP as the core protocols in our project. A user approves his wstETH tokens to the SparkLend pool and supplies the tokens to receive spwstETH tokens which gives borrowing power to the supplier. This P2P application uses XMTP as the core for the communication between lenders and borrowers. A borrower initiates a conversation with a lender who has good borrowing power requesting funds to be provided as loan. The lender verifies his credibility by requesting zkProofs in the XMTP chat. The borrower should verify the requested zkProof using Sismo Connect and return the proof which on verified will intimate the lender that the proof is verified. And then the lender can approve delegation to the borrower to borrow the funds.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Deployed on Goerli: https://goerli.etherscan.io/address/0x8A49Da0f4d2c92e9a6726617634B14eE80A584da
